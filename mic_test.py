@@ -4,6 +4,7 @@ import time
 import json
 import queue
 import subprocess
+import threading
 from datetime import datetime
 
 import sounddevice as sd
@@ -67,18 +68,24 @@ meeting_data = {
     "segments": []
 }
 
+# Protect meeting_data because the transcription thread
+# modifies it while the main thread is recording.
+meeting_lock = threading.Lock()
+
 
 def save_meeting():
     """
     Save the complete meeting transcription.
     """
-    with open(MEETING_FILE, "w", encoding="utf-8") as f:
-        json.dump(
-            meeting_data,
-            f,
-            indent=2,
-            ensure_ascii=False
-        )
+
+    with meeting_lock:
+        with open(MEETING_FILE, "w", encoding="utf-8") as f:
+            json.dump(
+                meeting_data,
+                f,
+                indent=2,
+                ensure_ascii=False
+            )
 
 
 save_meeting()
@@ -94,7 +101,6 @@ def save_wav(filename, frames):
         wf.setnchannels(CHANNELS)
         wf.setsampwidth(2)  # int16
         wf.setframerate(SAMPLE_RATE)
-
         wf.writeframes(b"".join(frames))
 
 
@@ -104,20 +110,17 @@ def save_wav(filename, frames):
 
 def transcribe(filename):
 
-    print("\n[PROCESSING]")
+    print()
+    print(f"[WHISPER START] {filename}")
 
     cmd = [
         WHISPER,
-
         "-m",
         MODEL,
-
         "-f",
         filename,
-
         "-l",
         "en",
-
         "-nt",
     ]
 
@@ -134,8 +137,6 @@ def transcribe(filename):
 
         return ""
 
-    # whisper-cli may print additional information.
-    # Remove empty lines and keep the transcription.
     lines = []
 
     for line in result.stdout.splitlines():
@@ -151,11 +152,154 @@ def transcribe(filename):
 
         lines.append(line)
 
-    return " ".join(lines).strip()
+    transcription = " ".join(lines).strip()
+
+    print(f"[WHISPER DONE] {filename}")
+
+    return transcription
 
 
 # ============================================================
-# Main loop
+# Transcription Queue
+# ============================================================
+
+transcription_queue = queue.Queue()
+
+transcription_stop = threading.Event()
+
+
+def transcription_worker():
+
+    """
+    Background worker.
+
+    The microphone never waits for this function.
+    """
+
+    print("[TRANSCRIPTION WORKER] Started")
+
+    while True:
+
+        try:
+            item = transcription_queue.get(timeout=0.5)
+
+        except queue.Empty:
+
+            if transcription_stop.is_set():
+                break
+
+            continue
+
+        # None means shutdown
+        if item is None:
+
+            transcription_queue.task_done()
+            break
+
+        segment_id = item["segment_id"]
+        filename = item["filename"]
+        duration_seconds = item["duration_seconds"]
+        timestamp = item["timestamp"]
+
+        try:
+
+            # --------------------------------------------
+            # Transcribe
+            # --------------------------------------------
+
+            transcription = transcribe(filename)
+
+            if transcription:
+
+                print()
+                print("==============================================")
+                print(f"[TRANSCRIPTION #{segment_id}]")
+                print(transcription)
+                print("==============================================")
+
+                # ----------------------------------------
+                # Add to meeting JSON
+                # ----------------------------------------
+
+                segment = {
+                    "segment_id": segment_id,
+                    "timestamp": timestamp,
+                    "duration_seconds": round(
+                        duration_seconds,
+                        2
+                    ),
+                    "text": transcription
+                }
+
+                with meeting_lock:
+
+                    meeting_data["segments"].append(
+                        segment
+                    )
+
+                    # Keep segments ordered
+                    meeting_data["segments"].sort(
+                        key=lambda x: x["segment_id"]
+                    )
+
+                # Save immediately
+                save_meeting()
+
+                print()
+                print(
+                    f"[SAVED TO MEETING] {MEETING_FILE}"
+                )
+
+            else:
+
+                print(
+                    f"[NO TRANSCRIPTION] Segment {segment_id}"
+                )
+
+        except Exception as e:
+
+            print(
+                f"[TRANSCRIPTION WORKER ERROR] "
+                f"Segment {segment_id}: {e}"
+            )
+
+        finally:
+
+            # Delete temporary WAV
+            if os.path.exists(filename):
+
+                try:
+                    os.remove(filename)
+
+                    print(
+                        f"[DELETED TEMP AUDIO] {filename}"
+                    )
+
+                except Exception as e:
+
+                    print(
+                        f"[DELETE ERROR] {e}"
+                    )
+
+            transcription_queue.task_done()
+
+    print("[TRANSCRIPTION WORKER] Stopped")
+
+
+# ============================================================
+# Start transcription worker
+# ============================================================
+
+worker_thread = threading.Thread(
+    target=transcription_worker,
+    daemon=True
+)
+
+worker_thread.start()
+
+
+# ============================================================
+# Main
 # ============================================================
 
 print("==============================================")
@@ -169,11 +313,16 @@ print()
 
 print("Speak normally.")
 print("Press Ctrl+C to stop.")
+
 print()
 
 
 segment_id = 0
 
+
+# ============================================================
+# Main microphone loop
+# ============================================================
 
 try:
 
@@ -192,6 +341,10 @@ try:
 
         segment_start = None
 
+        # ----------------------------------------------------
+        # Audio callback
+        # ----------------------------------------------------
+
         def callback(
             indata,
             frames_count,
@@ -204,7 +357,6 @@ try:
                 print("[AUDIO]", status)
 
             audio_queue.put(bytes(indata))
-
 
         # ----------------------------------------------------
         # Capture one speech segment
@@ -264,31 +416,37 @@ try:
 
                 if speech_started:
 
-                    duration = time.time() - segment_start
+                    duration = (
+                        time.time() - segment_start
+                    )
 
                     if duration >= MAX_SEGMENT_SECONDS:
 
-                        print("[MAX SEGMENT LENGTH]")
+                        print(
+                            "[MAX SEGMENT LENGTH]"
+                        )
 
                         break
 
-
-        # ----------------------------------------------------
+        # ====================================================
         # Validate speech
-        # ----------------------------------------------------
+        # ====================================================
 
-        speech_duration_ms = speech_frames * FRAME_MS
+        speech_duration_ms = (
+            speech_frames * FRAME_MS
+        )
 
         if speech_duration_ms < MIN_SPEECH_MS:
 
-            print("[IGNORED: TOO SHORT]")
+            print(
+                "[IGNORED: TOO SHORT]"
+            )
 
             continue
 
-
-        # ----------------------------------------------------
+        # ====================================================
         # Create temporary WAV
-        # ----------------------------------------------------
+        # ====================================================
 
         segment_id += 1
 
@@ -306,6 +464,8 @@ try:
             len(frames) * FRAME_MS / 1000
         )
 
+        timestamp = datetime.now().isoformat()
+
         print(
             f"[AUDIO SAVED] {filename}"
         )
@@ -314,82 +474,87 @@ try:
             f"[DURATION] {duration_seconds:.2f}s"
         )
 
+        # ====================================================
+        # Send to transcription worker
+        # ====================================================
 
-        # ----------------------------------------------------
-        # Transcribe
-        # ----------------------------------------------------
+        transcription_queue.put({
 
-        transcription = transcribe(filename)
+            "segment_id": segment_id,
 
+            "filename": filename,
 
-        if transcription:
+            "duration_seconds": duration_seconds,
 
-            print()
-            print("[TRANSCRIPTION]")
-            print(transcription)
+            "timestamp": timestamp
+        })
 
+        print(
+            f"[QUEUED FOR TRANSCRIPTION] "
+            f"Segment {segment_id}"
+        )
 
-            # --------------------------------------------
-            # Add to meeting JSON
-            # --------------------------------------------
+        print(
+            f"[QUEUE SIZE] "
+            f"{transcription_queue.qsize()}"
+        )
 
-            segment = {
+        # ====================================================
+        # IMPORTANT:
+        # DO NOT WAIT FOR WHISPER
+        # ====================================================
 
-                "segment_id": segment_id,
-
-                "timestamp": datetime.now().isoformat(),
-
-                "duration_seconds": round(
-                    duration_seconds,
-                    2
-                ),
-
-                "text": transcription
-            }
-
-
-            meeting_data["segments"].append(
-                segment
-            )
+        print("[LISTENING CONTINUES]")
 
 
-            # Save immediately
-            save_meeting()
-
-            print()
-            print(
-                f"[SAVED TO MEETING] "
-                f"{MEETING_FILE}"
-            )
-
-        else:
-
-            print(
-                "[NO TRANSCRIPTION]"
-            )
-
-
-        # ----------------------------------------------------
-        # Delete temporary audio
-        # ----------------------------------------------------
-
-        if os.path.exists(filename):
-
-            os.remove(filename)
-
-            print(
-                "[DELETED TEMP AUDIO]"
-            )
-
-
-        print()
-
+# ============================================================
+# Stop meeting
+# ============================================================
 
 except KeyboardInterrupt:
 
-    meeting_data["ended_at"] = datetime.now().isoformat()
+    print()
+    print("[STOPPING MEETING]")
+
+
+finally:
+
+    # --------------------------------------------------------
+    # Tell worker to finish remaining queue items
+    # --------------------------------------------------------
+
+    print()
+
+    print(
+        "[WAITING FOR TRANSCRIPTION QUEUE]"
+    )
+
+    # Wait until every queued audio segment
+    # has been processed.
+    transcription_queue.join()
+
+    # Tell worker to stop
+    transcription_stop.set()
+
+    transcription_queue.put(None)
+
+    worker_thread.join()
+
+    # --------------------------------------------------------
+    # Save final meeting
+    # --------------------------------------------------------
+
+    with meeting_lock:
+
+        meeting_data["ended_at"] = (
+            datetime.now().isoformat()
+        )
 
     save_meeting()
+
+    # --------------------------------------------------------
+    # Final information
+    # --------------------------------------------------------
 
     print()
     print("==============================================")
@@ -397,9 +562,8 @@ except KeyboardInterrupt:
     print("==============================================")
 
     print()
-    print(
-        f"Transcript saved to:"
-    )
+
+    print("Transcript saved to:")
 
     print(
         f"  {MEETING_FILE}"
@@ -411,3 +575,7 @@ except KeyboardInterrupt:
         f"Total segments: "
         f"{len(meeting_data['segments'])}"
     )
+
+    print()
+
+    print("All transcription completed.")
