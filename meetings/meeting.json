@@ -1,0 +1,13 @@
+{
+  "meeting_id": "20260925_114426",
+  "started_at": "2026-09-25T11:44:26.688697",
+  "segments": [
+    {
+      "segment_id": 1,
+      "timestamp": "2026-09-25T11:45:12.185877",
+      "duration_seconds": 26.91,
+      "text": "Hi, I am Pranakumar. I'm currently working as a backend developer at Infosys. I'm working on application which lets users get documents based on their input and then they can further ask follow-up questions on that. As a backend developer, I am responsible for creating and maintaining APIs, base socket, and database table schema. That's all."
+    }
+  ],
+  "ended_at": "2026-09-25T11:45:16.582062"
+}
