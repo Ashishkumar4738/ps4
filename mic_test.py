@@ -9,8 +9,8 @@ from datetime import datetime
 
 import sounddevice as sd
 import webrtcvad
-
-
+from agent.nova_listener import NovaListener
+from tts import speak
 # ============================================================
 # Configuration
 # ============================================================
@@ -45,6 +45,7 @@ MODEL = os.path.expanduser(
     "~/ps4/whisper.cpp/models/ggml-small.en.bin"
 )
 
+nova = NovaListener()
 
 # ============================================================
 # Setup
@@ -169,7 +170,6 @@ transcription_stop = threading.Event()
 
 
 def transcription_worker():
-
     """
     Background worker.
 
@@ -179,12 +179,10 @@ def transcription_worker():
     print("[TRANSCRIPTION WORKER] Started")
 
     while True:
-
         try:
             item = transcription_queue.get(timeout=0.5)
 
         except queue.Empty:
-
             if transcription_stop.is_set():
                 break
 
@@ -192,7 +190,6 @@ def transcription_worker():
 
         # None means shutdown
         if item is None:
-
             transcription_queue.task_done()
             break
 
@@ -202,7 +199,6 @@ def transcription_worker():
         timestamp = item["timestamp"]
 
         try:
-
             # --------------------------------------------
             # Transcribe
             # --------------------------------------------
@@ -231,31 +227,66 @@ def transcription_worker():
                     "text": transcription
                 }
 
-                with meeting_lock:
+                # ----------------------------------------
+                # Send transcript to Nova
+                # ----------------------------------------
 
-                    meeting_data["segments"].append(
-                        segment
-                    )
-
-                    # Keep segments ordered
-                    meeting_data["segments"].sort(
-                        key=lambda x: x["segment_id"]
-                    )
-
-                # Save immediately
-                save_meeting()
-
-                print()
-                print(
-                    f"[SAVED TO MEETING] {MEETING_FILE}"
+                nova_response = nova.process(
+                    transcription
                 )
 
-            else:
+                # ----------------------------------------
+                # Save only normal meeting conversation
+                # ----------------------------------------
 
-                print(
-                    f"[NO TRANSCRIPTION] Segment {segment_id}"
-                )
+                if not nova.last_was_command:
+                
+                    segment = {
+                        "segment_id": segment_id,
+                        "timestamp": timestamp,
+                        "duration_seconds": round(
+                            duration_seconds,
+                            2
+                        ),
+                        "text": transcription
+                    }
 
+                    with meeting_lock:
+                        meeting_data["segments"].append(segment)
+
+                        meeting_data["segments"].sort(
+                            key=lambda x: x["segment_id"]
+                        )
+
+                    save_meeting()
+
+                    print(
+                        f"[SAVED TO MEETING] {MEETING_FILE}"
+                    )
+
+                else:
+                
+                    print(
+                        "[NOVA COMMAND] Not saved to meeting.json"
+                    )
+
+
+                # ----------------------------------------
+                # Speak Nova response
+                # ----------------------------------------
+
+                if nova_response:
+                
+                    print()
+                    print("==============================================")
+                    print("[NOVA RESPONSE]")
+                    print(nova_response)
+                    print("==============================================")
+
+                    print("[NOVA TTS] Speaking...")
+                    speak(nova_response)
+                    print("[NOVA TTS] Done")
+                                  
         except Exception as e:
 
             print(
@@ -284,7 +315,6 @@ def transcription_worker():
             transcription_queue.task_done()
 
     print("[TRANSCRIPTION WORKER] Stopped")
-
 
 # ============================================================
 # Start transcription worker

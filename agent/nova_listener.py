@@ -1,12 +1,12 @@
 import re
-from nova_agent import ask_nova
+from agent.nova_agent import ask_nova
 
 
 # ============================================================
 # Configuration
 # ============================================================
 
-WAKE_PHRASE = "hey nova"
+WAKE_PHRASE = "computer"
 
 # Number of seconds after wake phrase during which
 # we expect the command.
@@ -51,6 +51,9 @@ class NovaListener:
 
         text = text.strip()
 
+        # Reset for every new transcription
+        self.last_was_command = False
+
         if not text:
             return None
 
@@ -62,6 +65,9 @@ class NovaListener:
 
             if self.contains_wake_phrase(text):
 
+                # This transcription IS a Nova command
+                self.last_was_command = True
+
                 self.active = True
 
                 command = self.remove_wake_phrase(text)
@@ -70,7 +76,7 @@ class NovaListener:
 
                 # User may have said:
                 #
-                # "Hey Nova, summarize the meeting."
+                # "Hey Noah, summarize the meeting."
                 #
                 # in the same Whisper segment.
 
@@ -95,12 +101,14 @@ class NovaListener:
         # COMMAND STATE
         # ----------------------------------------------------
 
+        # Since Nova is active, this is also a command
+        self.last_was_command = True
+
         print(
             f"[Nova] Command received: {text}"
         )
 
         return self.execute_command(text)
-
     # --------------------------------------------------------
     # Execute Nova command
     # --------------------------------------------------------

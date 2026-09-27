@@ -1,43 +1,72 @@
 {
-  "meeting_id": "20260925_154417",
-  "started_at": "2026-09-25T15:44:17.336561",
+  "meeting_id": "20260927_061806",
+  "started_at": "2026-09-27T06:18:06.197944",
   "segments": [
     {
       "segment_id": 1,
-      "timestamp": "2026-09-25T15:44:23.342156",
-      "duration_seconds": 4.35,
-      "text": "Hello, this is microphone testing from message 1."
+      "timestamp": "2026-09-27T06:18:14.164183",
+      "duration_seconds": 5.61,
+      "text": "Hey team, we are planning a meeting and here is the agenda."
     },
     {
       "segment_id": 2,
-      "timestamp": "2026-09-25T15:44:32.361886",
-      "duration_seconds": 4.35,
-      "text": "Hello, this is Mike testing from message 2."
+      "timestamp": "2026-09-27T06:18:22.014019",
+      "duration_seconds": 7.74,
+      "text": "Review quarter to performance matrices. Discuss budget allocation for upcoming digital campaign."
     },
     {
       "segment_id": 3,
-      "timestamp": "2026-09-25T15:44:38.259533",
-      "duration_seconds": 3.48,
-      "text": "Hello, this is my testing from message 3."
+      "timestamp": "2026-09-27T06:18:24.614175",
+      "duration_seconds": 1.8,
+      "text": "assigned team."
     },
     {
       "segment_id": 4,
-      "timestamp": "2026-09-25T15:44:44.689196",
-      "duration_seconds": 4.29,
-      "text": "Hello, this is my testing from message four."
+      "timestamp": "2026-09-27T06:18:27.061046",
+      "duration_seconds": 2.34,
+      "text": "targets for the next quarter."
     },
     {
       "segment_id": 5,
-      "timestamp": "2026-09-25T15:44:48.671991",
-      "duration_seconds": 3.06,
-      "text": "Hello this is my testing from message 5."
+      "timestamp": "2026-09-27T06:18:31.553966",
+      "duration_seconds": 3.72,
+      "text": "Discussion points will be department heads."
     },
     {
       "segment_id": 6,
-      "timestamp": "2026-09-25T15:44:56.073148",
-      "duration_seconds": 3.99,
-      "text": "Hello, this is my testing from SH6."
+      "timestamp": "2026-09-27T06:18:38.113872",
+      "duration_seconds": 6.51,
+      "text": "represented their quarterly performance reports, nothing at 15% increase in user engagement."
+    },
+    {
+      "segment_id": 7,
+      "timestamp": "2026-09-27T06:18:46.773839",
+      "duration_seconds": 6.96,
+      "text": "So the team agreed that customer service response time need improvement to boost client retention."
+    },
+    {
+      "segment_id": 8,
+      "timestamp": "2026-09-27T06:18:54.773544",
+      "duration_seconds": 6.93,
+      "text": "marketing proposed shifting 20% of the print ad budget into targeted social media campaigns."
+    },
+    {
+      "segment_id": 9,
+      "timestamp": "2026-09-27T06:19:25.454844",
+      "duration_seconds": 27.87,
+      "text": "Now that the fair decision made, that groups of other idea that we are in the center of art, they still have to be able to implement a new take-off system to improve consumer support for science. (mumbles) For the larger social media, I explain the things. (mumbles)"
+    },
+    {
+      "segment_id": 10,
+      "timestamp": "2026-09-27T06:19:28.773775",
+      "duration_seconds": 3.27,
+      "text": "If it is one of the works then..."
+    },
+    {
+      "segment_id": 11,
+      "timestamp": "2026-09-27T06:19:35.481433",
+      "duration_seconds": 6.66,
+      "text": "[INAUDIBLE]"
     }
-  ],
-  "ended_at": "2026-09-25T15:45:14.373113"
+  ]
 }

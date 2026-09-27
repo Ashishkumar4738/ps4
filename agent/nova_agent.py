@@ -3,7 +3,7 @@ from pathlib import Path
 
 import ollama
 
-from nova_tools import (
+from agent.nova_tools import (
     get_transcript_between,
     get_recent_transcript,
     search_meeting,
