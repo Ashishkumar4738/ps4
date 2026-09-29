@@ -1,25 +1,67 @@
 {
-  "meeting_id": "20260929_050942",
-  "started_at": "2026-09-29T05:09:42.713101",
+  "meeting_id": "20260929_062427",
+  "started_at": "2026-09-29T06:24:27.674932",
   "segments": [
     {
       "segment_id": 1,
-      "timestamp": "2026-09-29T05:09:50.898405",
-      "duration_seconds": 6.36,
-      "text": "Hello, this is a meeting which is recording on the today date."
+      "timestamp": "2026-09-29T06:24:34.836467",
+      "duration_seconds": 5.31,
+      "text": "Hello, this is testing after making after refactoring the changes."
     },
     {
       "segment_id": 2,
-      "timestamp": "2026-09-29T05:10:00.068525",
-      "duration_seconds": 7.47,
-      "text": "So as our recommendation is to use always offline compatible AI."
+      "timestamp": "2026-09-29T06:24:39.926384",
+      "duration_seconds": 3.36,
+      "text": "and this is message 2 after refactoring."
     },
     {
-      "segment_id": 3,
-      "timestamp": "2026-09-29T05:10:09.239268",
-      "duration_seconds": 8.01,
-      "text": "model which can transcribe our English speaking"
+      "segment_id": 4,
+      "timestamp": "2026-09-29T06:25:54.592487",
+      "duration_seconds": 5.34,
+      "text": "Hello. This is a message recording after the mobile speaking."
+    },
+    {
+      "segment_id": 5,
+      "timestamp": "2026-09-29T06:26:17.321303",
+      "duration_seconds": 6.69,
+      "text": "So, I think it is working properly for now and resectoring is working fine."
+    },
+    {
+      "segment_id": 6,
+      "timestamp": "2026-09-29T06:26:23.253471",
+      "duration_seconds": 4.5,
+      "text": "I think now we can push this code on the GitHub."
+    },
+    {
+      "segment_id": 7,
+      "timestamp": "2026-09-29T06:26:30.861631",
+      "duration_seconds": 7.44,
+      "text": "so everyone can check the changes and perform their actions on it."
+    },
+    {
+      "segment_id": 8,
+      "timestamp": "2026-09-29T06:27:13.152734",
+      "duration_seconds": 28.08,
+      "text": "So the thing is if I have made any changes in the script so everyone should know what changes I have made and I think I also have to make a flow of this project so everyone will be able to understand and after some time I will be also able to explain this flow to anyone if anyone asked me to explain this project."
+    },
+    {
+      "segment_id": 10,
+      "timestamp": "2026-09-29T06:28:50.575251",
+      "duration_seconds": 5.34,
+      "text": "So after that last speaking, did anything recorded?"
+    },
+    {
+      "segment_id": 11,
+      "timestamp": "2026-09-29T06:29:12.165701",
+      "duration_seconds": 10.23,
+      "text": "OK, so it is recording and working fine, so I will push this on the GitHub and inform everyone for this update."
+    },
+    {
+      "segment_id": 12,
+      "timestamp": "2026-09-29T06:29:34.014837",
+      "duration_seconds": 2.4,
+      "text": "Okay, exit from the terminal."
     }
   ],
-  "ended_at": "2026-09-29T05:11:02.009573"
+  "ended_at": "2026-09-29T06:29:43.874918"
 }
