@@ -47,6 +47,7 @@ MODEL = os.path.expanduser(
 
 nova = NovaListener()
 
+
 # ============================================================
 # Setup
 # ============================================================
@@ -72,6 +73,12 @@ meeting_data = {
 # Protect meeting_data because the transcription thread
 # modifies it while the main thread is recording.
 meeting_lock = threading.Lock()
+
+transcription_stop = threading.Event()
+
+# Controls whether microphone audio is accepted
+mic_enabled = threading.Event()
+mic_enabled.set()
 
 
 def save_meeting():
@@ -167,6 +174,13 @@ def transcribe(filename):
 transcription_queue = queue.Queue()
 
 transcription_stop = threading.Event()
+
+# Controls whether the microphone should accept audio
+mic_enabled = threading.Event()
+mic_enabled.set()
+
+# Tells the active VAD loop to stop immediately
+mic_stop_requested = threading.Event()
 
 
 def transcription_worker():
@@ -265,27 +279,63 @@ def transcription_worker():
                     )
 
                 else:
-                
-                    print(
-                        "[NOVA COMMAND] Not saved to meeting.json"
-                    )
 
-
-                # ----------------------------------------
-                # Speak Nova response
-                # ----------------------------------------
-
-                if nova_response:
-                
                     print()
                     print("==============================================")
-                    print("[NOVA RESPONSE]")
-                    print(nova_response)
+                    print("[NOVA COMMAND DETECTED]")
+                    print("[MICROPHONE] DISABLED")
                     print("==============================================")
 
+                    # Disable microphone immediately
+                    mic_enabled.clear()
+
+                    print("[NOVA COMMAND] Not saved to meeting.json")
+                
+                    # Nova response / action
+            # --------------------------------------------------------
+            # Speak Nova response
+            # --------------------------------------------------------
+
+            if nova_response:
+            
+                print()
+                print("==============================================")
+                print("[NOVA RESPONSE]")
+                print(nova_response)
+                print("==============================================")
+
+                try:
                     print("[NOVA TTS] Speaking...")
+
+                    # Microphone is already disabled
                     speak(nova_response)
+
                     print("[NOVA TTS] Done")
+                    # Give the microphone/audio system a moment to settle
+                    time.sleep(0.2)
+
+                except Exception as e:
+                    print(f"[NOVA TTS ERROR] {e}")
+
+                finally:
+                    # ALWAYS re-enable microphone after command
+                    if nova.last_was_command:
+                    
+                        print("[NOVA COMMAND] Re-enabling microphone...")
+
+                        # Remove audio frames that may have arrived
+                        # while microphone was disabled.
+                        while True:
+                            try:
+                                audio_queue.get_nowait()
+                                audio_queue.task_done()
+                            except queue.Empty:
+                                break
+                            
+                        mic_enabled.set()
+
+                        print("[MICROPHONE] ENABLED")
+                        print("[LISTENING]")
                                   
         except Exception as e:
 
@@ -358,17 +408,25 @@ try:
 
     while True:
 
+        # ========================================================
+        # Wait until microphone is enabled
+        # ========================================================
+    
+        mic_enabled.wait()
+    
+        # Reset stop request for this listening session
+        mic_stop_requested.clear()
+    
         print("[LISTENING]")
-
+    
         audio_queue = queue.Queue()
-
+    
         frames = []
-
+    
         speech_started = False
-
         silence_frames = 0
         speech_frames = 0
-
+    
         segment_start = None
 
         # ----------------------------------------------------
@@ -383,8 +441,18 @@ try:
         ):
 
             if status:
-
                 print("[AUDIO]", status)
+
+            # Nova command is running.
+            # Tell the active VAD loop to stop.
+            if not mic_enabled.is_set():
+            
+                mic_stop_requested.set()
+
+                # Wake up audio_queue.get()
+                audio_queue.put(None)
+
+                return
 
             audio_queue.put(bytes(indata))
 
@@ -404,6 +472,13 @@ try:
 
                 frame = audio_queue.get()
 
+                # Nova requested microphone shutdown
+                if frame is None or mic_stop_requested.is_set():
+                
+                    print("[MICROPHONE] Stop requested")
+
+                    break
+                
                 is_speech = vad.is_speech(
                     frame,
                     SAMPLE_RATE
