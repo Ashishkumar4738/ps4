@@ -1,5 +1,5 @@
 import os
-
+from pathlib import Path
 SAMPLE_RATE = 16000
 CHANNELS = 1
 FRAME_MS = 30
@@ -21,4 +21,10 @@ WHISPER = os.path.expanduser(
 
 MODEL = os.path.expanduser(
     "~/ps4/whisper.cpp/models/ggml-small.en.bin"
+)
+
+MODEL_NAME = "llama3.2:3b"
+
+SYSTEM_PROMPT_FILE = (
+    Path(__file__).resolve().parent /"agent" / "system_prompt.txt"
 )

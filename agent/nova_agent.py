@@ -1,5 +1,5 @@
 import json
-from pathlib import Path
+from web.search import (web_search, news_search)
 
 import ollama
 
@@ -10,16 +10,7 @@ from agent.nova_tools import (
     segments_to_text,
 )
 
-
-# ============================================================
-# Configuration
-# ============================================================
-
-MODEL_NAME = "llama3.2:3b"
-
-SYSTEM_PROMPT_FILE = (
-    Path(__file__).resolve().parent / "system_prompt.txt"
-)
+from config import (MODEL_NAME, SYSTEM_PROMPT_FILE)
 
 
 # ============================================================
@@ -129,6 +120,59 @@ TOOLS = [
                 ]
             }
         }
+    },
+
+    {
+        "type": "function",
+        "function": {
+            "name": "web_search",
+            "description": (
+                "Search the internet for current or general "
+                "information that is not contained in the "
+                "recorded meeting transcript."
+            ),
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "query": {
+                        "type": "string",
+                        "description": (
+                            "The web search query. "
+                            "Use a clear and specific query."
+                        )
+                    }
+                },
+                "required": [
+                    "query"
+                ]
+            }
+        }
+    },
+
+    {
+        "type": "function",
+        "function": {
+            "name": "news_search",
+            "description": (
+                "Search the internet for recent news "
+                "about a topic."
+            ),
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "query": {
+                        "type": "string",
+                        "description": (
+                            "The topic or subject to search "
+                            "for recent news."
+                        )
+                    }
+                },
+                "required": [
+                    "query"
+                ]
+            }
+        }
     }
 ]
 
@@ -166,6 +210,27 @@ def execute_tool(tool_name, arguments):
 
         result = search_meeting(
             arguments["query"]
+        )
+
+        return json.dumps(
+            result,
+            ensure_ascii=False
+        )
+    elif tool_name == "web_search":
+        result = web_search(
+            arguments["query"],
+            max_results=5
+        )
+
+        return json.dumps(
+            result,
+            ensure_ascii=False
+        )
+
+    elif tool_name == "news_search":
+        result = news_search(
+            arguments["query"],
+            max_results=5
         )
 
         return json.dumps(
