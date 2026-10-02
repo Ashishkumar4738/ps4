@@ -1,6 +1,6 @@
 import re
 from agent.nova_agent import ask_nova
-
+from logger_config import logger
 
 # ============================================================
 # Configuration
@@ -28,7 +28,7 @@ class NovaListener:
 
     def contains_wake_phrase(self, text):
         text = text.lower().strip()
-
+        logger.debug(f"Checking for wake phrase in text: {text}")
         return WAKE_PHRASE in text
 
     # --------------------------------------------------------
@@ -72,7 +72,7 @@ class NovaListener:
 
                 command = self.remove_wake_phrase(text)
 
-                print("\n[Nova] Wake phrase detected.")
+                logger.info("\n[Nova] Wake phrase detected.")
 
                 # User may have said:
                 #
@@ -82,7 +82,7 @@ class NovaListener:
 
                 if command:
 
-                    print(
+                    logger.info(
                         f"[Nova] Command: {command}"
                     )
 
@@ -104,7 +104,7 @@ class NovaListener:
         # Since Nova is active, this is also a command
         self.last_was_command = True
 
-        print(
+        logger.info(
             f"[Nova] Command received: {text}"
         )
 
@@ -119,16 +119,18 @@ class NovaListener:
 
             response = ask_nova(command)
 
-            print(
-                f"\nNova: {response}\n"
+            logger.info(
+                "Nova response: %s",
+                response
             )
 
             return response
 
         except Exception as e:
 
-            print(
-                f"\n[Nova Error] {e}\n"
+            logger.exception(
+                "Nova Error: %s",
+                e
             )
 
             return None

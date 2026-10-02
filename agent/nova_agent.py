@@ -1,15 +1,15 @@
 import json
 from web.search import (web_search, news_search)
-
+from time_tools import get_current_datetime
 import ollama
-
+from agent.tools import TOOLS
 from agent.nova_tools import (
     get_transcript_between,
     get_recent_transcript,
     search_meeting,
     segments_to_text,
 )
-
+from logger_config import logger
 from config import (MODEL_NAME, SYSTEM_PROMPT_FILE)
 
 
@@ -29,152 +29,7 @@ def load_system_prompt():
 SYSTEM_PROMPT = load_system_prompt()
 
 
-# ============================================================
-# Tool definitions
-# ============================================================
 
-TOOLS = [
-    {
-        "type": "function",
-        "function": {
-            "name": "get_transcript_between",
-            "description": (
-                "Retrieve meeting transcript segments "
-                "between two ISO timestamps."
-            ),
-            "parameters": {
-                "type": "object",
-                "properties": {
-                    "start_time": {
-                        "type": "string",
-                        "description": (
-                            "Start timestamp in ISO format. "
-                            "Example: "
-                            "2026-09-25T15:44:00"
-                        )
-                    },
-                    "end_time": {
-                        "type": "string",
-                        "description": (
-                            "End timestamp in ISO format. "
-                            "Example: "
-                            "2026-09-25T15:45:00"
-                        )
-                    }
-                },
-                "required": [
-                    "start_time",
-                    "end_time"
-                ]
-            }
-        }
-    },
-
-    {
-        "type": "function",
-        "function": {
-            "name": "get_recent_transcript",
-            "description": (
-                "Retrieve the most recent portion "
-                "of the meeting transcript."
-            ),
-            "parameters": {
-                "type": "object",
-                "properties": {
-                    "minutes": {
-                        "type": "integer",
-                        "description": (
-                            "Number of recent minutes "
-                            "to retrieve."
-                        )
-                    }
-                },
-                "required": [
-                    "minutes"
-                ]
-            }
-        }
-    },
-
-    {
-        "type": "function",
-        "function": {
-            "name": "search_meeting",
-            "description": (
-                "Search the meeting transcript for "
-                "a keyword or phrase."
-            ),
-            "parameters": {
-                "type": "object",
-                "properties": {
-                    "query": {
-                        "type": "string",
-                        "description": (
-                            "Keyword or phrase to search "
-                            "for in the meeting."
-                        )
-                    }
-                },
-                "required": [
-                    "query"
-                ]
-            }
-        }
-    },
-
-    {
-        "type": "function",
-        "function": {
-            "name": "web_search",
-            "description": (
-                "Search the internet for current or general "
-                "information that is not contained in the "
-                "recorded meeting transcript."
-            ),
-            "parameters": {
-                "type": "object",
-                "properties": {
-                    "query": {
-                        "type": "string",
-                        "description": (
-                            "The web search query. "
-                            "Use a clear and specific query."
-                        )
-                    }
-                },
-                "required": [
-                    "query"
-                ]
-            }
-        }
-    },
-
-    {
-        "type": "function",
-        "function": {
-            "name": "news_search",
-            "description": (
-                "Search the internet for recent news "
-                "about a topic."
-            ),
-            "parameters": {
-                "type": "object",
-                "properties": {
-                    "query": {
-                        "type": "string",
-                        "description": (
-                            "The topic or subject to search "
-                            "for recent news."
-                        )
-                    }
-                },
-                "required": [
-                    "query"
-                ]
-            }
-        }
-    }
-]
 
 
 # ============================================================
@@ -183,66 +38,88 @@ TOOLS = [
 
 def execute_tool(tool_name, arguments):
 
-    if tool_name == "get_transcript_between":
+    logger.info(
+        "Tool requested: %s | Arguments: %s",
+        tool_name,
+        arguments,
+    )
 
-        result = get_transcript_between(
-            arguments["start_time"],
-            arguments["end_time"]
+    try:
+
+        if tool_name == "get_transcript_between":
+
+            result = get_transcript_between(
+                arguments["start_time"],
+                arguments["end_time"]
+            )
+
+            return json.dumps(
+                result,
+                ensure_ascii=False
+            )
+
+        elif tool_name == "get_recent_transcript":
+
+            result = get_recent_transcript(
+                int(arguments["minutes"])
+            )
+
+            return json.dumps(
+                result,
+                ensure_ascii=False
+            )
+
+        elif tool_name == "search_meeting":
+
+            result = search_meeting(
+                arguments["query"]
+            )
+
+            return json.dumps(
+                result,
+                ensure_ascii=False
+            )
+        elif tool_name == "web_search":
+            result = web_search(
+                arguments["query"],
+                max_results=5
+            )
+            
+            return json.dumps(
+                result,
+                ensure_ascii=False
+            )
+
+        elif tool_name == "news_search":
+            result = news_search(
+                arguments["query"],
+                max_results=5
+            )
+
+            return json.dumps(
+                result,
+                ensure_ascii=False
+            )
+
+        elif tool_name == "get_current_datetime":
+            result = get_current_datetime(
+                arguments.get("location", "India")
+            )
+
+            logger.info(f"[TIME TOOL] {result}")
+
+            return result
+
+        else:
+            raise ValueError(
+                f"Unknown tool: {tool_name}"
+            )
+    except Exception:
+        logger.exception(
+            "Tool execution failed: %s",
+            tool_name,
         )
-
-        return json.dumps(
-            result,
-            ensure_ascii=False
-        )
-
-    elif tool_name == "get_recent_transcript":
-
-        result = get_recent_transcript(
-            int(arguments["minutes"])
-        )
-
-        return json.dumps(
-            result,
-            ensure_ascii=False
-        )
-
-    elif tool_name == "search_meeting":
-
-        result = search_meeting(
-            arguments["query"]
-        )
-
-        return json.dumps(
-            result,
-            ensure_ascii=False
-        )
-    elif tool_name == "web_search":
-        result = web_search(
-            arguments["query"],
-            max_results=5
-        )
-
-        return json.dumps(
-            result,
-            ensure_ascii=False
-        )
-
-    elif tool_name == "news_search":
-        result = news_search(
-            arguments["query"],
-            max_results=5
-        )
-
-        return json.dumps(
-            result,
-            ensure_ascii=False
-        )
-
-    else:
-        raise ValueError(
-            f"Unknown tool: {tool_name}"
-        )
-
+        raise
 
 # ============================================================
 # Ask Nova
@@ -250,6 +127,8 @@ def execute_tool(tool_name, arguments):
 
 def ask_nova(user_command):
 
+    logger.info("User command: %s", user_command)
+    logger.info("Using model: %s", MODEL_NAME)
     messages = [
         {
             "role": "system",
@@ -299,13 +178,12 @@ def ask_nova(user_command):
             tool_name = function["name"]
             arguments = function["arguments"]
 
-            print(
-                f"\n[Nova Tool] {tool_name}"
+            logger.info(
+                "Nova requested tool: %s | Arguments: %s",
+                tool_name,
+                arguments,
             )
 
-            print(
-                f"[Arguments] {arguments}"
-            )
 
             result = execute_tool(
                 tool_name,
@@ -330,7 +208,7 @@ def main():
     print("Nova Meeting Assistant")
     print("=" * 60)
 
-    print(f"Model: {MODEL_NAME}")
+    logger.info(f"Model: {MODEL_NAME}")
 
     print("\nType a command.")
     print("Type 'exit' to quit.\n")
@@ -352,14 +230,16 @@ def main():
 
             answer = ask_nova(user_input)
 
-            print(
-                f"\nNova: {answer}\n"
+            logger.info(
+                "Nova response: %s",
+                answer,
             )
 
         except Exception as e:
 
-            print(
-                f"\n[Nova Error] {e}\n"
+            logger.exception(
+                "Nova Error: %s",
+                e,
             )
 
 

@@ -1,7 +1,7 @@
 import json
 from datetime import datetime, timedelta
 from pathlib import Path
-
+from logger_config import logger
 
 # ============================================================
 # Configuration
@@ -17,6 +17,7 @@ MEETING_FILE = Path(__file__).resolve().parent.parent /"meetings" / "meeting.jso
 def load_meeting():
     """Load the current meeting.json file."""
     if not MEETING_FILE.exists():
+        logger.error(f"Meeting file not found: {MEETING_FILE}")
         raise FileNotFoundError(
             f"Meeting file not found: {MEETING_FILE}"
         )
@@ -76,6 +77,7 @@ def get_transcript_between(start_time, end_time):
     end = parse_timestamp(end_time)
 
     if start >= end:
+        logger.error("start_time must be before end_time")
         raise ValueError("start_time must be before end_time")
 
     results = []
@@ -110,6 +112,7 @@ def get_recent_transcript(minutes):
     meeting = load_meeting()
 
     if minutes <= 0:
+        logger.error("minutes must be greater than zero")
         raise ValueError("minutes must be greater than zero")
 
     segments = meeting.get("segments", [])
@@ -167,6 +170,7 @@ def search_meeting(query):
     query = query.strip().lower()
 
     if not query:
+        logger.error("Search query cannot be empty")
         raise ValueError("Search query cannot be empty")
 
     results = []

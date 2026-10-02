@@ -33,10 +33,10 @@ class WebAgent:
         Convert raw search results into clean text
         for the LLM.
         """
-    
+
         if not results:
             return "No search results found."
-    
+        print(f"[WEB AGENT] Formatted results: {results}")
         formatted = []
         result_number = 1
     

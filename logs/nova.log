@@ -1,0 +1,143 @@
+2026-10-02 19:05:35 | INFO     | nova | User command: give me the current date of India.
+2026-10-02 19:05:35 | INFO     | nova | Using model: llama3.2:3b
+2026-10-02 19:05:35 | ERROR    | nova | Error while processing user command
+NoneType: None
+2026-10-02 19:05:52 | INFO     | nova | Tool requested: get_current_datetime | Arguments: {'location': 'India'}
+2026-10-02 19:06:39 | INFO     | nova | User command: what is the data in random
+2026-10-02 19:06:39 | INFO     | nova | Using model: llama3.2:3b
+2026-10-02 19:06:39 | ERROR    | nova | Error while processing user command
+NoneType: None
+2026-10-02 19:06:43 | INFO     | nova | Tool requested: web_search | Arguments: {'query': 'data in random'}
+2026-10-02 19:14:35 | INFO     | nova | User command: what is current date
+2026-10-02 19:14:35 | INFO     | nova | Using model: llama3.2:3b
+2026-10-02 19:14:51 | INFO     | nova | Nova requested tool: get_current_datetime | Arguments: {'location': None}
+2026-10-02 19:14:51 | INFO     | nova | Tool requested: get_current_datetime | Arguments: {'location': None}
+2026-10-02 19:14:51 | ERROR    | nova | Tool execution failed: get_current_datetime
+Traceback (most recent call last):
+  File "/home/ashish/ps4/agent/nova_agent.py", line 105, in execute_tool
+    result = get_current_datetime(
+        arguments.get("location", "India")
+    )
+  File "/home/ashish/ps4/time_tools.py", line 20, in get_current_datetime
+    key = location.strip().lower()
+          ^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'strip'
+2026-10-02 19:18:46 | INFO     | nova | User command: what is current date
+2026-10-02 19:18:46 | INFO     | nova | Using model: llama3.2:3b
+2026-10-02 19:18:47 | INFO     | nova | Nova requested tool: get_current_datetime | Arguments: {}
+2026-10-02 19:18:47 | INFO     | nova | Tool requested: get_current_datetime | Arguments: {}
+2026-10-02 19:19:06 | INFO     | nova | User command: what is the current date
+2026-10-02 19:19:06 | INFO     | nova | Using model: llama3.2:3b
+2026-10-02 19:19:24 | INFO     | nova | Nova requested tool: get_current_datetime | Arguments: {'location': None}
+2026-10-02 19:19:24 | INFO     | nova | Tool requested: get_current_datetime | Arguments: {'location': None}
+2026-10-02 19:19:24 | ERROR    | nova | Tool execution failed: get_current_datetime
+Traceback (most recent call last):
+  File "/home/ashish/ps4/agent/nova_agent.py", line 105, in execute_tool
+    result = get_current_datetime(
+        arguments.get("location", "India")
+    )
+  File "/home/ashish/ps4/time_tools.py", line 20, in get_current_datetime
+    key = location.strip().lower()
+          ^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'strip'
+2026-10-02 19:19:47 | INFO     | nova | User command: what is the current date
+2026-10-02 19:19:47 | INFO     | nova | Using model: llama3.2:3b
+2026-10-02 19:19:48 | INFO     | nova | Nova requested tool: get_current_datetime | Arguments: {'location': None}
+2026-10-02 19:19:48 | INFO     | nova | Tool requested: get_current_datetime | Arguments: {'location': None}
+2026-10-02 19:19:48 | ERROR    | nova | Tool execution failed: get_current_datetime
+Traceback (most recent call last):
+  File "/home/ashish/ps4/agent/nova_agent.py", line 105, in execute_tool
+    result = get_current_datetime(
+        arguments.get("location", "India")
+    )
+  File "/home/ashish/ps4/time_tools.py", line 20, in get_current_datetime
+    key = location.strip().lower()
+          ^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'strip'
+2026-10-02 19:20:03 | INFO     | nova | User command: what is the current date
+2026-10-02 19:20:03 | INFO     | nova | Using model: llama3.2:3b
+2026-10-02 19:20:03 | INFO     | nova | Nova requested tool: get_current_datetime | Arguments: {'location': 'India'}
+2026-10-02 19:20:03 | INFO     | nova | Tool requested: get_current_datetime | Arguments: {'location': 'India'}
+2026-10-02 19:21:06 | INFO     | nova | User command: through my current date.
+2026-10-02 19:21:06 | INFO     | nova | Using model: llama3.2:3b
+2026-10-02 19:21:10 | INFO     | nova | Nova requested tool: get_current_datetime | Arguments: {'location': 'India'}
+2026-10-02 19:21:10 | INFO     | nova | Tool requested: get_current_datetime | Arguments: {'location': 'India'}
+2026-10-02 19:31:46 | INFO     | nova | 
+[Nova] Wake phrase detected.
+2026-10-02 19:31:46 | INFO     | nova | [Nova] Command: what is the weather updates of Kone.
+2026-10-02 19:31:46 | INFO     | nova | User command: what is the weather updates of Kone.
+2026-10-02 19:31:46 | INFO     | nova | Using model: llama3.2:3b
+2026-10-02 19:32:03 | INFO     | nova | Nova requested tool: news_search | Arguments: {'query': 'Kone weather updates'}
+2026-10-02 19:32:03 | INFO     | nova | Tool requested: news_search | Arguments: {'query': 'Kone weather updates'}
+2026-10-02 19:32:03 | INFO     | nova | Performing news search for query: Kone weather updates with max results: 5
+2026-10-02 19:32:04 | ERROR    | nova | [NEWS SEARCH ERROR] No results found.
+2026-10-02 19:32:06 | INFO     | nova | Nova response: I was unable to find any recent weather updates for Kone. Could you please provide more information or clarify which Kone you are referring to? Is it a city, location, or perhaps a company?
+2026-10-02 19:32:34 | INFO     | nova | 
+[Nova] Wake phrase detected.
+2026-10-02 19:32:34 | INFO     | nova | [Nova] Command: can you provide me with updates of Pooning?
+2026-10-02 19:32:34 | INFO     | nova | User command: can you provide me with updates of Pooning?
+2026-10-02 19:32:34 | INFO     | nova | Using model: llama3.2:3b
+2026-10-02 19:32:38 | INFO     | nova | Nova requested tool: news_search | Arguments: {'query': 'Pooning recent news'}
+2026-10-02 19:32:38 | INFO     | nova | Tool requested: news_search | Arguments: {'query': 'Pooning recent news'}
+2026-10-02 19:32:38 | INFO     | nova | Performing news search for query: Pooning recent news with max results: 5
+2026-10-02 19:32:39 | ERROR    | nova | [NEWS SEARCH ERROR] No results found.
+2026-10-02 19:32:41 | INFO     | nova | Nova response: Based on the online search, I couldn't find any recent news or developments about "Pooning". It's possible that it's a misspelling or a term that is not widely used. Can you please provide more context or clarify what you mean by "Pooning"?
+2026-10-02 19:33:10 | INFO     | nova | 
+[Nova] Wake phrase detected.
+2026-10-02 19:33:10 | INFO     | nova | [Nova] Command: can you provide me with the updates of pruning
+2026-10-02 19:33:10 | INFO     | nova | User command: can you provide me with the updates of pruning
+2026-10-02 19:33:10 | INFO     | nova | Using model: llama3.2:3b
+2026-10-02 19:33:14 | INFO     | nova | Nova requested tool: search_meeting | Arguments: {'query': 'pruning'}
+2026-10-02 19:33:14 | INFO     | nova | Tool requested: search_meeting | Arguments: {'query': 'pruning'}
+2026-10-02 19:33:30 | INFO     | nova | 
+[Nova] Wake phrase detected.
+2026-10-02 19:33:30 | INFO     | nova | [Nova] Command: can you provide me with the updates of kuna
+2026-10-02 19:33:30 | INFO     | nova | User command: can you provide me with the updates of kuna
+2026-10-02 19:33:30 | INFO     | nova | Using model: llama3.2:3b
+2026-10-02 19:33:34 | INFO     | nova | Nova requested tool: web_search | Arguments: {'query': 'Kuna updates'}
+2026-10-02 19:33:34 | INFO     | nova | Tool requested: web_search | Arguments: {'query': 'Kuna updates'}
+2026-10-02 19:33:34 | INFO     | nova | Performing web search for query: Kuna updates with max results: 5
+2026-10-02 19:33:45 | INFO     | nova | Nova response: The current updates on Kuna include:
+
+* The City of Kuna is beginning an update to their comprehensive plan.
+* The Springfield KUNA Lower collection has been updated, with orders starting to ship in the first two weeks of January. The plan is to be completely caught up on all open orders by mid-January.
+* Kuna Smart Home Security has been updated with software improvements to improve accessibility and clarity, including enhancements for upcoming products.
+2026-10-02 19:34:37 | INFO     | nova | 
+[Nova] Wake phrase detected.
+2026-10-02 19:34:37 | INFO     | nova | [Nova] Command: viewing current date.
+2026-10-02 19:34:37 | INFO     | nova | User command: viewing current date.
+2026-10-02 19:34:37 | INFO     | nova | Using model: llama3.2:3b
+2026-10-02 19:34:41 | INFO     | nova | Nova requested tool: get_current_datetime | Arguments: {'location': 'UTC'}
+2026-10-02 19:34:41 | INFO     | nova | Tool requested: get_current_datetime | Arguments: {'location': 'UTC'}
+2026-10-02 19:34:41 | INFO     | nova | [TIME TOOL] Location: UTC
+Date: Friday, 02 October 2026
+Time: 07:34:41 PM
+Timezone: UTC
+UTC offset: +0000
+2026-10-02 19:34:42 | INFO     | nova | Nova response: The current date is Friday, October 2, 2026.
+2026-10-02 19:35:10 | INFO     | nova | 
+[Nova] Wake phrase detected.
+2026-10-02 19:35:10 | INFO     | nova | [Nova] Command: the  view my current date.
+2026-10-02 19:35:10 | INFO     | nova | User command: the  view my current date.
+2026-10-02 19:35:10 | INFO     | nova | Using model: llama3.2:3b
+2026-10-02 19:35:14 | INFO     | nova | Nova requested tool: get_current_datetime | Arguments: {'location': 'UTC'}
+2026-10-02 19:35:14 | INFO     | nova | Tool requested: get_current_datetime | Arguments: {'location': 'UTC'}
+2026-10-02 19:35:14 | INFO     | nova | [TIME TOOL] Location: UTC
+Date: Friday, 02 October 2026
+Time: 07:35:14 PM
+Timezone: UTC
+UTC offset: +0000
+2026-10-02 19:35:15 | INFO     | nova | Nova response: The current date and time is Friday, October 2, 2026, 7:35 PM UTC.
+2026-10-02 19:35:37 | INFO     | nova | 
+[Nova] Wake phrase detected.
+2026-10-02 19:35:37 | INFO     | nova | [Nova] Command: give me current date of India.
+2026-10-02 19:35:37 | INFO     | nova | User command: give me current date of India.
+2026-10-02 19:35:37 | INFO     | nova | Using model: llama3.2:3b
+2026-10-02 19:35:41 | INFO     | nova | Nova requested tool: get_current_datetime | Arguments: {'location': 'India'}
+2026-10-02 19:35:41 | INFO     | nova | Tool requested: get_current_datetime | Arguments: {'location': 'India'}
+2026-10-02 19:35:41 | INFO     | nova | [TIME TOOL] Location: India
+Date: Saturday, 03 October 2026
+Time: 01:05:41 AM
+Timezone: IST
+UTC offset: +0530
+2026-10-02 19:35:42 | INFO     | nova | Nova response: The current date in India is Saturday, 03 October 2026.

@@ -1,5 +1,5 @@
 from ddgs import DDGS
-
+from logger_config import logger
 
 def web_search(query, max_results=5):
     """
@@ -8,7 +8,7 @@ def web_search(query, max_results=5):
     Returns:
         list[dict]: Search results.
     """
-
+    logger.info(f"Performing web search for query: {query} with max results: {max_results}")
     try:
         results = DDGS().text(
             query,
@@ -18,7 +18,7 @@ def web_search(query, max_results=5):
         return results
 
     except Exception as e:
-        print(f"[WEB SEARCH ERROR] {e}")
+        logger.error(f"[WEB SEARCH ERROR] {e}")
         return []
 
 
@@ -29,17 +29,16 @@ def news_search(query, max_results=5):
     Returns:
         list[dict]: News results.
     """
-
+    logger.info(f"Performing news search for query: {query} with max results: {max_results}")
     try:
         results = DDGS().news(
             query,
             max_results=max_results
         )
-
         return results
 
     except Exception as e:
-        print(f"[NEWS SEARCH ERROR] {e}")
+        logger.error(f"[NEWS SEARCH ERROR] {e}")
         return []
 
 
