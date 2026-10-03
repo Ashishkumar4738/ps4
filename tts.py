@@ -2,7 +2,7 @@ import os
 import subprocess
 import tempfile
 import time
-
+from logger_config import logger
 
 PIPER_MODEL = "/home/ashish/ps4/models/tts/en_US-lessac-medium.onnx"
 
@@ -25,7 +25,7 @@ def speak(text):
 
     try:
 
-        print("[TTS] Generating Piper audio...")
+        logger.info("[TTS] Generating Piper audio...")
 
         subprocess.run(
             [

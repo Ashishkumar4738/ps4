@@ -2,7 +2,7 @@ from pathlib import Path
 
 from pypdf import PdfReader
 from docx import Document
-
+from logger_config import logger
 
 SUPPORTED_EXTENSIONS = {
     ".pdf",
@@ -23,6 +23,7 @@ def parse_document(filename):
     path = Path(filename).expanduser().resolve()
 
     if not path.is_file():
+        logger.error(f"Document not found: {path}")
         raise FileNotFoundError(
             f"Document not found: {path}"
         )
@@ -30,6 +31,7 @@ def parse_document(filename):
     extension = path.suffix.lower()
 
     if extension not in SUPPORTED_EXTENSIONS:
+        logger.error(f"Unsupported file type: {extension}")
         raise ValueError(
             f"Unsupported file type: {extension}"
         )
@@ -68,6 +70,10 @@ def parse_document(filename):
         )
 
     if not content.strip():
+        logger.error(
+            "No readable text found in document. "
+            "The PDF may require OCR."
+        )
         raise ValueError(
             "No readable text found in document. "
             "The PDF may require OCR."

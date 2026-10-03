@@ -164,8 +164,7 @@ TOOLS = [
                         "description": (
                             "if user does not provide a location, default to India."
                             "Location name: India, UK, London, "
-                            "USA, New York, or UTC. Defaults "
-                            "to India when omitted."
+                            "USA, New York, or UTC."
 
                         )
                     }

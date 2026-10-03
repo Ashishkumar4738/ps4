@@ -1,6 +1,6 @@
 import subprocess
 
-from config import WHISPER, MODEL
+from config.config import WHISPER, MODEL
 
 
 # ============================================================

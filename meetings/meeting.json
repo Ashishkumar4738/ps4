@@ -1,25 +1,85 @@
 {
-  "meeting_id": "20261002_193318",
-  "started_at": "2026-10-02T19:33:18.512575",
+  "meeting_id": "20261003_061830",
+  "started_at": "2026-10-03T06:18:30.111983",
   "segments": [
     {
-      "segment_id": 2,
-      "timestamp": "2026-10-02T19:33:35.238278",
-      "duration_seconds": 1.92,
+      "segment_id": 1,
+      "timestamp": "2026-10-03T06:18:35.580802",
+      "duration_seconds": 1.05,
       "text": "[BLANK_AUDIO]"
     },
     {
       "segment_id": 3,
-      "timestamp": "2026-10-02T19:33:36.941603",
-      "duration_seconds": 1.41,
+      "timestamp": "2026-10-03T06:20:04.337432",
+      "duration_seconds": 1.74,
       "text": "[BLANK_AUDIO]"
     },
     {
       "segment_id": 4,
-      "timestamp": "2026-10-02T19:33:41.668010",
-      "duration_seconds": 1.59,
-      "text": "- Nah, peace."
+      "timestamp": "2026-10-03T06:20:08.977278",
+      "duration_seconds": 2.88,
+      "text": ">> [INAUDIBLE]"
+    },
+    {
+      "segment_id": 5,
+      "timestamp": "2026-10-03T06:20:21.267851",
+      "duration_seconds": 11.22,
+      "text": "[ Inaudible ]"
+    },
+    {
+      "segment_id": 6,
+      "timestamp": "2026-10-03T06:20:24.350040",
+      "duration_seconds": 1.74,
+      "text": "See you in the next video."
+    },
+    {
+      "segment_id": 7,
+      "timestamp": "2026-10-03T06:20:28.597312",
+      "duration_seconds": 4.17,
+      "text": "(indistinct chattering)"
+    },
+    {
+      "segment_id": 8,
+      "timestamp": "2026-10-03T06:20:47.100133",
+      "duration_seconds": 16.74,
+      "text": "No more planting your own food. No more saving seeds for next season."
+    },
+    {
+      "segment_id": 9,
+      "timestamp": "2026-10-03T06:21:17.449987",
+      "duration_seconds": 30.06,
+      "text": "Everything you eat, everything that grows, will come from our labs. And when the last natural feed is gone, that's when it gets fun. We can make them rare, expensive, maybe even licensed. Only billionaires that will have gardens and everyone else will have to subscribe to eat. Sounds insane, right? But it's already happening. Seedless isn't convenience, it's containment. Every time you pick up a seedless fruit, you're holding a future that can't reproduce. So yeah, expect more seedless."
+    },
+    {
+      "segment_id": 10,
+      "timestamp": "2026-10-03T06:21:28.449191",
+      "duration_seconds": 10.95,
+      "text": "everything because the easiest way to control the world is to stop it from growing so remember to stay safe out there."
+    },
+    {
+      "segment_id": 11,
+      "timestamp": "2026-10-03T06:21:37.716878",
+      "duration_seconds": 2.79,
+      "text": "completed some rise last 5 min."
+    },
+    {
+      "segment_id": 12,
+      "timestamp": "2026-10-03T06:21:44.008982",
+      "duration_seconds": 1.08,
+      "text": "[BLANK_AUDIO]"
+    },
+    {
+      "segment_id": 14,
+      "timestamp": "2026-10-03T06:21:57.296861",
+      "duration_seconds": 2.85,
+      "text": "[BLANK_AUDIO]"
+    },
+    {
+      "segment_id": 16,
+      "timestamp": "2026-10-03T06:22:42.166045",
+      "duration_seconds": 1.65,
+      "text": "[BLANK_AUDIO]"
     }
   ],
-  "ended_at": "2026-10-02T19:36:07.611512"
+  "ended_at": "2026-10-03T06:24:16.272807"
 }

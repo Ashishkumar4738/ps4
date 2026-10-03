@@ -10,7 +10,7 @@ from agent.nova_tools import (
     segments_to_text,
 )
 from logger_config import logger
-from config import (MODEL_NAME, SYSTEM_PROMPT_FILE)
+from config.config import (MODEL_NAME, SYSTEM_PROMPT_FILE)
 
 
 # ============================================================

@@ -26,5 +26,5 @@ MODEL = os.path.expanduser(
 MODEL_NAME = "llama3.2:3b"
 
 SYSTEM_PROMPT_FILE = (
-    Path(__file__).resolve().parent /"agent" / "system_prompt.txt"
+    Path(__file__).resolve().parent /".."/ "agent" / "system_prompt.txt"
 )

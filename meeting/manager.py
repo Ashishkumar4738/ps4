@@ -3,8 +3,7 @@ import json
 import threading
 from datetime import datetime
 
-from config import MEETING_FILE, MEETING_DIR
-
+from config.config import MEETING_FILE, MEETING_DIR
 
 class MeetingManager:
 

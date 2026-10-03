@@ -141,3 +141,338 @@ Time: 01:05:41 AM
 Timezone: IST
 UTC offset: +0530
 2026-10-02 19:35:42 | INFO     | nova | Nova response: The current date in India is Saturday, 03 October 2026.
+2026-10-02 19:42:55 | INFO     | nova | 
+[Nova] Wake phrase detected.
+2026-10-02 19:42:55 | INFO     | nova | [Nova] Command: give me current date.
+2026-10-02 19:42:55 | INFO     | nova | User command: give me current date.
+2026-10-02 19:42:55 | INFO     | nova | Using model: llama3.2:3b
+2026-10-02 19:43:12 | INFO     | nova | Nova requested tool: get_current_datetime | Arguments: {'location': 'UTC'}
+2026-10-02 19:43:12 | INFO     | nova | Tool requested: get_current_datetime | Arguments: {'location': 'UTC'}
+2026-10-02 19:43:12 | INFO     | nova | [TIME TOOL] Location: UTC
+Date: Friday, 02 October 2026
+Time: 07:43:12 PM
+Timezone: UTC
+UTC offset: +0000
+2026-10-02 19:43:13 | INFO     | nova | Nova response: The current date is Friday, October 2, 2026.
+2026-10-03 05:46:52 | INFO     | nova | 
+[Nova] Wake phrase detected.
+2026-10-03 05:46:52 | INFO     | nova | [Nova] Command: to summarize the meeting.
+2026-10-03 05:46:52 | INFO     | nova | User command: to summarize the meeting.
+2026-10-03 05:46:52 | INFO     | nova | Using model: llama3.2:3b
+2026-10-03 05:47:10 | INFO     | nova | Nova requested tool: get_recent_transcript | Arguments: {'minutes': '30'}
+2026-10-03 05:47:10 | INFO     | nova | Tool requested: get_recent_transcript | Arguments: {'minutes': '30'}
+2026-10-03 05:47:16 | INFO     | nova | Nova response: The recent discussion in the meeting was about using different models for the V-Square, including the base model, medium model, and small model. The speaker was considering using the base model first and then comparing it with the small model. However, they were unsure which model to use, as they wanted to balance speed with accuracy.
+2026-10-03 05:47:16 | INFO     | nova | [MICROPHONE] DISABLED
+2026-10-03 05:47:16 | INFO     | nova | [MICROPHONE] Stop requested
+2026-10-03 05:47:40 | INFO     | nova | [MICROPHONE] ENABLED
+2026-10-03 05:47:40 | INFO     | nova | [LISTENING]
+2026-10-03 05:47:45 | INFO     | nova | 
+[Nova] Wake phrase detected.
+2026-10-03 05:47:45 | INFO     | nova | [Nova] Command: can be the date.
+2026-10-03 05:47:45 | INFO     | nova | User command: can be the date.
+2026-10-03 05:47:45 | INFO     | nova | Using model: llama3.2:3b
+2026-10-03 05:47:49 | INFO     | nova | Nova requested tool: search_meeting | Arguments: {'query': 'Meeting agenda'}
+2026-10-03 05:47:49 | INFO     | nova | Tool requested: search_meeting | Arguments: {'query': 'Meeting agenda'}
+2026-10-03 05:47:50 | INFO     | nova | Nova response: I don't have a matching meeting transcript for that agenda. Can you provide more context or clarify the topic of the meeting?
+2026-10-03 05:47:50 | INFO     | nova | [MICROPHONE] DISABLED
+2026-10-03 05:47:50 | INFO     | nova | [MICROPHONE] Stop requested
+2026-10-03 05:48:00 | INFO     | nova | [MICROPHONE] ENABLED
+2026-10-03 05:48:00 | INFO     | nova | [LISTENING]
+2026-10-03 05:48:05 | INFO     | nova | 
+[Nova] Wake phrase detected.
+2026-10-03 05:48:05 | INFO     | nova | [Nova] Command: tell me that it
+2026-10-03 05:48:05 | INFO     | nova | User command: tell me that it
+2026-10-03 05:48:05 | INFO     | nova | Using model: llama3.2:3b
+2026-10-03 05:48:09 | INFO     | nova | Nova requested tool: search_meeting | Arguments: {'query': 'that'}
+2026-10-03 05:48:09 | INFO     | nova | Tool requested: search_meeting | Arguments: {'query': 'that'}
+2026-10-03 05:48:33 | INFO     | nova | 
+[Nova] Wake phrase detected.
+2026-10-03 05:48:33 | INFO     | nova | [Nova] Command: tell me that it
+2026-10-03 05:48:33 | INFO     | nova | User command: tell me that it
+2026-10-03 05:48:33 | INFO     | nova | Using model: llama3.2:3b
+2026-10-03 05:48:37 | INFO     | nova | Nova requested tool: web_search | Arguments: {'query': 'what is the meaning of "tell me that"'}
+2026-10-03 05:48:37 | INFO     | nova | Tool requested: web_search | Arguments: {'query': 'what is the meaning of "tell me that"'}
+2026-10-03 05:48:37 | INFO     | nova | Performing web search for query: what is the meaning of "tell me that" with max results: 5
+2026-10-03 05:48:47 | INFO     | nova | Nova response: Based on the online search, it appears that "tell me that" can have different meanings depending on the context. Here's a summary of the search results:
+
+* According to Ludwig, "tell me that" is a phrase used to request information or clarification on a particular topic.
+* The Free Dictionary defines "you mean to tell me that" as an idiom that means to express surprise or skepticism at something someone is saying.
+
+In general, "tell me that" can be used as a conversational phrase to ask for more information or to seek clarification on a statement. However, the exact meaning may vary depending on the context and the tone in which it is used.
+
+Since this information is not contained in the meeting transcript, I would use the online tool "web_search" to provide this answer.
+2026-10-03 05:48:47 | INFO     | nova | [MICROPHONE] DISABLED
+2026-10-03 05:48:47 | INFO     | nova | [MICROPHONE] Stop requested
+2026-10-03 06:06:41 | INFO     | nova | 
+[Nova] Wake phrase detected.
+2026-10-03 06:06:41 | INFO     | nova | [Nova] Command: give me somebody of the meeting.
+2026-10-03 06:06:41 | INFO     | nova | User command: give me somebody of the meeting.
+2026-10-03 06:06:41 | INFO     | nova | Using model: llama3.2:3b
+2026-10-03 06:06:59 | INFO     | nova | Nova requested tool: search_meeting | Arguments: {'query': 'someone in the meeting'}
+2026-10-03 06:06:59 | INFO     | nova | Tool requested: search_meeting | Arguments: {'query': 'someone in the meeting'}
+2026-10-03 06:07:00 | INFO     | nova | Nova response: Unfortunately, I couldn't find anyone explicitly mentioned in the meeting transcript. However, I can try to help you find the transcript for the specified meeting ID or retrieve a recent portion of the meeting if you'd like.
+2026-10-03 06:07:00 | INFO     | nova | [MICROPHONE] DISABLED
+2026-10-03 06:07:00 | INFO     | nova | [MICROPHONE] Stop requested
+2026-10-03 06:07:15 | INFO     | nova | [MICROPHONE] ENABLED
+2026-10-03 06:07:15 | INFO     | nova | [LISTENING]
+2026-10-03 06:07:26 | INFO     | nova | 
+[Nova] Wake phrase detected.
+2026-10-03 06:07:26 | INFO     | nova | [Nova] Command: give me the summary of the meeting.
+2026-10-03 06:07:26 | INFO     | nova | User command: give me the summary of the meeting.
+2026-10-03 06:07:26 | INFO     | nova | Using model: llama3.2:3b
+2026-10-03 06:07:30 | INFO     | nova | Nova requested tool: get_recent_transcript | Arguments: {'minutes': 10}
+2026-10-03 06:07:30 | INFO     | nova | Tool requested: get_recent_transcript | Arguments: {'minutes': 10}
+2026-10-03 06:07:35 | INFO     | nova | Nova response: Here is a summary of the meeting:
+
+The meeting discussed the use of the Whisper model for transcription. The speaker mentioned that they were previously using the base model, which was not working properly. However, they found that the small model was working better and was faster. The speaker also mentioned that the multi-thread model for Whisper is being used, which allows for parallel processing and makes the transcription faster.
+2026-10-03 06:07:35 | INFO     | nova | [MICROPHONE] DISABLED
+2026-10-03 06:07:35 | INFO     | nova | [MICROPHONE] Stop requested
+2026-10-03 06:08:02 | INFO     | nova | [MICROPHONE] ENABLED
+2026-10-03 06:08:02 | INFO     | nova | [LISTENING]
+2026-10-03 06:08:13 | INFO     | nova | 
+[Nova] Wake phrase detected.
+2026-10-03 06:08:13 | INFO     | nova | [Nova] Command: can you tell me the latest news from Pune
+2026-10-03 06:08:13 | INFO     | nova | User command: can you tell me the latest news from Pune
+2026-10-03 06:08:13 | INFO     | nova | Using model: llama3.2:3b
+2026-10-03 06:08:17 | INFO     | nova | Nova requested tool: news_search | Arguments: {'query': 'latest news from Pune'}
+2026-10-03 06:08:17 | INFO     | nova | Tool requested: news_search | Arguments: {'query': 'latest news from Pune'}
+2026-10-03 06:08:17 | INFO     | nova | Performing news search for query: latest news from Pune with max results: 5
+2026-10-03 06:08:27 | INFO     | nova | Nova response: Here are the latest news from Pune:
+
+* 8 Pune students drowned at Diveagar beach in Maharashtra during a school picnic.
+* Trio assaulted cabby on Pune-Mumbai expressway, fled with cellphone and cab.
+* FDA cancels Cipla licences: Maharashtra regulator axes Pune warehouse permits; firm to review order.
+* 30,000 schoolgirls in Pune to get Asmita Dignity kit.
+* Tragic Pune school picnic: 8 students drowned in sea off Diveagar beach.
+
+These news stories are current as of the search results provided and are based on information from The Times of India on MSN.
+2026-10-03 06:08:27 | INFO     | nova | [MICROPHONE] DISABLED
+2026-10-03 06:08:27 | INFO     | nova | [MICROPHONE] Stop requested
+2026-10-03 06:09:08 | INFO     | nova | [MICROPHONE] ENABLED
+2026-10-03 06:09:08 | INFO     | nova | [LISTENING]
+2026-10-03 06:09:19 | INFO     | nova | 
+[Nova] Wake phrase detected.
+2026-10-03 06:09:19 | INFO     | nova | [Nova] Command: you are doing great
+2026-10-03 06:09:19 | INFO     | nova | User command: you are doing great
+2026-10-03 06:09:19 | INFO     | nova | Using model: llama3.2:3b
+2026-10-03 06:09:23 | INFO     | nova | Nova response: Let's get the answer ready.
+
+I have received the prompt, but I don't see a specific question to answer. Can you please provide the question, and I'll respond with the corresponding JSON function call?
+2026-10-03 06:09:23 | INFO     | nova | [MICROPHONE] DISABLED
+2026-10-03 06:09:23 | INFO     | nova | [MICROPHONE] Stop requested
+2026-10-03 06:09:38 | INFO     | nova | [MICROPHONE] ENABLED
+2026-10-03 06:09:38 | INFO     | nova | [LISTENING]
+2026-10-03 06:09:49 | INFO     | nova | 
+[Nova] Wake phrase detected.
+2026-10-03 06:09:49 | INFO     | nova | [Nova] Command: can you tell me about something you
+2026-10-03 06:09:49 | INFO     | nova | User command: can you tell me about something you
+2026-10-03 06:09:49 | INFO     | nova | Using model: llama3.2:3b
+2026-10-03 06:09:50 | INFO     | nova | Nova requested tool: search_meeting | Arguments: {'query': 'something I can tell you about'}
+2026-10-03 06:09:50 | INFO     | nova | Tool requested: search_meeting | Arguments: {'query': 'something I can tell you about'}
+2026-10-03 06:09:52 | INFO     | nova | Nova response: I couldn't find anything about "something I can tell you about" in the meeting transcript. Can you please provide more context or clarify what you would like to know? I can try to help you summarize a specific time range or search the transcript for a keyword or phrase if that would be helpful.
+2026-10-03 06:09:52 | INFO     | nova | [MICROPHONE] DISABLED
+2026-10-03 06:09:52 | INFO     | nova | [MICROPHONE] Stop requested
+2026-10-03 06:10:12 | INFO     | nova | [MICROPHONE] ENABLED
+2026-10-03 06:10:12 | INFO     | nova | [LISTENING]
+2026-10-03 06:10:22 | INFO     | nova | 
+[Nova] Wake phrase detected.
+2026-10-03 06:10:22 | INFO     | nova | [Nova] Command: , do you know who is the owner of this project?
+2026-10-03 06:10:22 | INFO     | nova | User command: , do you know who is the owner of this project?
+2026-10-03 06:10:22 | INFO     | nova | Using model: llama3.2:3b
+2026-10-03 06:10:26 | INFO     | nova | Nova requested tool: web_search | Arguments: {'query': 'Project owner'}
+2026-10-03 06:10:26 | INFO     | nova | Tool requested: web_search | Arguments: {'query': 'Project owner'}
+2026-10-03 06:10:26 | INFO     | nova | Performing web search for query: Project owner with max results: 5
+2026-10-03 06:10:38 | INFO     | nova | Nova response: The owner of this project is not explicitly stated in the provided information. However, based on the context, it appears that the project owner is likely a person responsible for managing a specific project, ensuring it meets its objectives, stays within budget, and is completed on time. This person may be referred to as a project manager, project leader, or project sponsor.
+2026-10-03 06:10:38 | INFO     | nova | [MICROPHONE] DISABLED
+2026-10-03 06:10:38 | INFO     | nova | [MICROPHONE] Stop requested
+2026-10-03 06:11:07 | INFO     | nova | [MICROPHONE] ENABLED
+2026-10-03 06:11:07 | INFO     | nova | [LISTENING]
+2026-10-03 06:12:12 | INFO     | nova | 
+[Nova] Wake phrase detected.
+2026-10-03 06:12:12 | INFO     | nova | [Nova] Command: , do you know time difference between GMT and IST?
+2026-10-03 06:12:12 | INFO     | nova | User command: , do you know time difference between GMT and IST?
+2026-10-03 06:12:12 | INFO     | nova | Using model: llama3.2:3b
+2026-10-03 06:12:16 | INFO     | nova | Nova requested tool: web_search | Arguments: {'query': 'time difference between GMT and IST'}
+2026-10-03 06:12:16 | INFO     | nova | Tool requested: web_search | Arguments: {'query': 'time difference between GMT and IST'}
+2026-10-03 06:12:16 | INFO     | nova | Performing web search for query: time difference between GMT and IST with max results: 5
+2026-10-03 06:12:21 | INFO     | nova | Nova response: The time difference between GMT and IST is 5 hours and 30 minutes. GMT is 5 hours and 30 minutes behind IST.
+2026-10-03 06:12:21 | INFO     | nova | [MICROPHONE] DISABLED
+2026-10-03 06:12:21 | INFO     | nova | [MICROPHONE] Stop requested
+2026-10-03 06:12:33 | INFO     | nova | [MICROPHONE] ENABLED
+2026-10-03 06:12:33 | INFO     | nova | [LISTENING]
+2026-10-03 06:12:44 | INFO     | nova | 
+[Nova] Wake phrase detected.
+2026-10-03 06:12:44 | INFO     | nova | [Nova] Command: can I rename you to
+2026-10-03 06:12:44 | INFO     | nova | User command: can I rename you to
+2026-10-03 06:12:44 | INFO     | nova | Using model: llama3.2:3b
+2026-10-03 06:12:48 | INFO     | nova | Nova requested tool: search_meeting | Arguments: {'query': 'renaming'}
+2026-10-03 06:12:48 | INFO     | nova | Tool requested: search_meeting | Arguments: {'query': 'renaming'}
+2026-10-03 06:12:51 | INFO     | nova | Nova response: You can rename me to "Luminate". I'll be happy to help you with any questions or tasks you have. I'll be able to use my meeting and online capabilities to assist you.
+
+Now that we have the name change, I can assist you further. How can I help you today? Do you have a meeting transcript you'd like me to help with, or do you have a question about something else?
+2026-10-03 06:12:51 | INFO     | nova | [MICROPHONE] DISABLED
+2026-10-03 06:12:51 | INFO     | nova | [MICROPHONE] Stop requested
+2026-10-03 06:13:14 | INFO     | nova | [MICROPHONE] ENABLED
+2026-10-03 06:13:14 | INFO     | nova | [LISTENING]
+2026-10-03 06:13:24 | INFO     | nova | 
+[Nova] Wake phrase detected.
+2026-10-03 06:13:24 | INFO     | nova | [Nova] Command: can I train you from here
+2026-10-03 06:13:24 | INFO     | nova | User command: can I train you from here
+2026-10-03 06:13:24 | INFO     | nova | Using model: llama3.2:3b
+2026-10-03 06:13:29 | INFO     | nova | Nova response: No, you cannot train me from here. This is a pre-defined set of functions and capabilities. To use these functions, you need to call them with the proper arguments, and I will respond with the output in the format you requested.
+
+To get started, what is the user's question or prompt?
+2026-10-03 06:13:29 | INFO     | nova | [MICROPHONE] DISABLED
+2026-10-03 06:13:29 | INFO     | nova | [MICROPHONE] Stop requested
+2026-10-03 06:13:48 | INFO     | nova | [MICROPHONE] ENABLED
+2026-10-03 06:13:48 | INFO     | nova | [LISTENING]
+2026-10-03 06:14:00 | INFO     | nova | 
+[Nova] Wake phrase detected.
+2026-10-03 06:14:00 | INFO     | nova | [Nova] Command: so you only work on the prompts, I will not be able to train you, correct?
+2026-10-03 06:14:00 | INFO     | nova | User command: so you only work on the prompts, I will not be able to train you, correct?
+2026-10-03 06:14:00 | INFO     | nova | Using model: llama3.2:3b
+2026-10-03 06:14:02 | INFO     | nova | Nova response: Since I don't have any initial context or training, I'll rely on the provided functions to respond to each prompt. Please provide the prompt, and I'll respond with a JSON function call that best answers the question.
+2026-10-03 06:14:02 | INFO     | nova | [MICROPHONE] DISABLED
+2026-10-03 06:14:02 | INFO     | nova | [MICROPHONE] Stop requested
+2026-10-03 06:14:17 | INFO     | nova | [MICROPHONE] ENABLED
+2026-10-03 06:14:17 | INFO     | nova | [LISTENING]
+2026-10-03 06:14:31 | INFO     | nova | 
+[Nova] Wake phrase detected.
+2026-10-03 06:14:31 | INFO     | nova | [Nova] Command: . Do you know who invented OLAMA?
+2026-10-03 06:14:31 | INFO     | nova | User command: . Do you know who invented OLAMA?
+2026-10-03 06:14:31 | INFO     | nova | Using model: llama3.2:3b
+2026-10-03 06:14:32 | INFO     | nova | Nova requested tool: web_search | Arguments: {'query': 'OLAMA inventor'}
+2026-10-03 06:14:32 | INFO     | nova | Tool requested: web_search | Arguments: {'query': 'OLAMA inventor'}
+2026-10-03 06:14:32 | INFO     | nova | Performing web search for query: OLAMA inventor with max results: 5
+2026-10-03 06:14:38 | INFO     | nova | Nova response: The inventors of Ollama are Michael Chiang and Jeffrey Morgan.
+2026-10-03 06:14:38 | INFO     | nova | [MICROPHONE] DISABLED
+2026-10-03 06:14:38 | INFO     | nova | [MICROPHONE] Stop requested
+2026-10-03 06:14:44 | INFO     | nova | [MICROPHONE] ENABLED
+2026-10-03 06:14:44 | INFO     | nova | [LISTENING]
+2026-10-03 06:14:58 | INFO     | nova | 
+[Nova] Wake phrase detected.
+2026-10-03 06:14:58 | INFO     | nova | [Nova] Command: do you know I am storing logs of this chat
+2026-10-03 06:14:58 | INFO     | nova | User command: do you know I am storing logs of this chat
+2026-10-03 06:14:58 | INFO     | nova | Using model: llama3.2:3b
+2026-10-03 06:15:02 | INFO     | nova | Nova requested tool: search_meeting | Arguments: {'query': ' storing logs of this chat'}
+2026-10-03 06:15:02 | INFO     | nova | Tool requested: search_meeting | Arguments: {'query': ' storing logs of this chat'}
+2026-10-03 06:15:04 | INFO     | nova | Nova response: I've searched the meeting transcript for the query "storing logs of this chat". Unfortunately, it didn't match any keywords or phrases in the transcript. If you'd like, I can try to help with a different question or provide more information on how to retrieve specific logs from our conversation.
+2026-10-03 06:15:04 | INFO     | nova | [MICROPHONE] DISABLED
+2026-10-03 06:15:04 | INFO     | nova | [MICROPHONE] Stop requested
+2026-10-03 06:15:23 | INFO     | nova | [MICROPHONE] ENABLED
+2026-10-03 06:15:23 | INFO     | nova | [LISTENING]
+2026-10-03 06:15:48 | INFO     | nova | 
+[Nova] Wake phrase detected.
+2026-10-03 06:15:48 | INFO     | nova | [Nova] Command: give me weather updates of Kooning.
+2026-10-03 06:15:48 | INFO     | nova | User command: give me weather updates of Kooning.
+2026-10-03 06:15:48 | INFO     | nova | Using model: llama3.2:3b
+2026-10-03 06:15:52 | INFO     | nova | Nova requested tool: news_search | Arguments: {'query': 'Kooning weather updates'}
+2026-10-03 06:15:52 | INFO     | nova | Tool requested: news_search | Arguments: {'query': 'Kooning weather updates'}
+2026-10-03 06:15:52 | INFO     | nova | Performing news search for query: Kooning weather updates with max results: 5
+2026-10-03 06:15:53 | ERROR    | nova | [NEWS SEARCH ERROR] No results found.
+2026-10-03 06:15:55 | INFO     | nova | Nova response: Unfortunately, I was unable to find any information on weather updates for Kooning. It's possible that Kooning is a small location or not a well-known location, or that the name is misspelled. Can you please provide more context or clarify which Kooning you are referring to? I'll do my best to help you with the weather updates.
+2026-10-03 06:15:55 | INFO     | nova | [MICROPHONE] DISABLED
+2026-10-03 06:15:55 | INFO     | nova | [MICROPHONE] Stop requested
+2026-10-03 06:16:16 | INFO     | nova | [MICROPHONE] ENABLED
+2026-10-03 06:16:16 | INFO     | nova | [LISTENING]
+2026-10-03 06:16:25 | INFO     | nova | 
+[Nova] Wake phrase detected.
+2026-10-03 06:16:25 | INFO     | nova | [Nova] Command: give me weather updates.
+2026-10-03 06:16:25 | INFO     | nova | User command: give me weather updates.
+2026-10-03 06:16:25 | INFO     | nova | Using model: llama3.2:3b
+2026-10-03 06:16:29 | INFO     | nova | Nova requested tool: web_search | Arguments: {'query': 'weather updates'}
+2026-10-03 06:16:29 | INFO     | nova | Tool requested: web_search | Arguments: {'query': 'weather updates'}
+2026-10-03 06:16:29 | INFO     | nova | Performing web search for query: weather updates with max results: 5
+2026-10-03 06:16:39 | INFO     | nova | Nova response: I was able to find some general information on weather updates, but I didn't find any current or specific weather updates for your location. However, I can suggest some websites that provide current weather conditions and forecasts, such as AccuWeather, Weather.com, and MSN Weather.
+
+If you're looking for more specific information on weather updates, I can try to help you with that. Please let me know what you're looking for and I'll do my best to assist you.
+2026-10-03 06:16:39 | INFO     | nova | [MICROPHONE] DISABLED
+2026-10-03 06:16:39 | INFO     | nova | [MICROPHONE] Stop requested
+2026-10-03 06:17:11 | INFO     | nova | [MICROPHONE] ENABLED
+2026-10-03 06:17:11 | INFO     | nova | [LISTENING]
+2026-10-03 06:17:33 | INFO     | nova | 
+[Nova] Wake phrase detected.
+2026-10-03 06:17:33 | INFO     | nova | [Nova] Command: provide me with updates of who name.
+2026-10-03 06:17:33 | INFO     | nova | User command: provide me with updates of who name.
+2026-10-03 06:17:33 | INFO     | nova | Using model: llama3.2:3b
+2026-10-03 06:17:37 | INFO     | nova | Nova requested tool: web_search | Arguments: {'query': 'Updates on company name'}
+2026-10-03 06:17:37 | INFO     | nova | Tool requested: web_search | Arguments: {'query': 'Updates on company name'}
+2026-10-03 06:17:37 | INFO     | nova | Performing web search for query: Updates on company name with max results: 5
+2026-10-03 06:17:53 | INFO     | nova | Nova response: The current updates on company name changes are as follows:
+
+* The process for changing a company name in India involves passing board resolutions, filing with the Registrar of Companies (ROC), and obtaining a new certificate of incorporation.
+* The company name change procedure in India is governed by the Companies Act, 2013.
+* The process includes updating the "doing business as" name in the billing profile and organisation name in Microsoft 365.
+* Business owners and authorized individuals can submit a name change request to the IRS, depending on the type of business.
+* The EIN (Employer Identification Number) may need to be updated if filing liability has yet to be determined.
+* The ROC approval process for changing a company name involves filing the necessary forms and paying the required fees.
+* The step-by-step process for changing a private limited company name includes passing board resolutions, filing with the ROC, and obtaining a new certificate of incorporation.
+
+For more information, you can refer to the following sources:
+
+* Microsoft 365 admin center: Billing > Billing accounts
+* Internal Revenue Service (IRS): Business name change
+* Companies Act, 2013: Section 13A
+* TaxGuru: Procedure for Change of Name of a Private Limited Company
+* TaxGuru: Step-by-step process for changing name of a private limited company
+
+Note: The information provided is based on the search results and may not be comprehensive or up-to-date. It's recommended to consult with a professional or seek further guidance before making any changes to your company's name.
+2026-10-03 06:17:53 | INFO     | nova | [MICROPHONE] DISABLED
+2026-10-03 06:17:53 | INFO     | nova | [MICROPHONE] Stop requested
+2026-10-03 06:18:22 | INFO     | nova | 
+[Nova] Wake phrase detected.
+2026-10-03 06:18:22 | INFO     | nova | [Nova] Command: provide any weather updates of the leaf.
+2026-10-03 06:18:22 | INFO     | nova | User command: provide any weather updates of the leaf.
+2026-10-03 06:18:22 | INFO     | nova | Using model: llama3.2:3b
+2026-10-03 06:18:26 | INFO     | nova | Nova requested tool: web_search | Arguments: {'query': 'leaf weather updates'}
+2026-10-03 06:18:26 | INFO     | nova | Tool requested: web_search | Arguments: {'query': 'leaf weather updates'}
+2026-10-03 06:18:26 | INFO     | nova | Performing web search for query: leaf weather updates with max results: 5
+2026-10-03 06:18:46 | INFO     | nova | 
+[Nova] Wake phrase detected.
+2026-10-03 06:18:46 | INFO     | nova | [Nova] Command: provide me weather updates of Kanpur.
+2026-10-03 06:18:46 | INFO     | nova | User command: provide me weather updates of Kanpur.
+2026-10-03 06:18:46 | INFO     | nova | Using model: llama3.2:3b
+2026-10-03 06:18:50 | INFO     | nova | Nova requested tool: web_search | Arguments: {'query': 'Kanpur weather updates'}
+2026-10-03 06:18:50 | INFO     | nova | Tool requested: web_search | Arguments: {'query': 'Kanpur weather updates'}
+2026-10-03 06:18:50 | INFO     | nova | Performing web search for query: Kanpur weather updates with max results: 5
+2026-10-03 06:19:03 | INFO     | nova | Nova response: Here are the current weather updates for Kanpur:
+
+* According to the weather radar map, there are no immediate storms or severe weather alerts in the area.
+* The current temperature in Kanpur is around 28°C (82°F) with a relative humidity of 60%.
+* There is a chance of scattered clouds and light rain in the next 24 hours, with a high of 32°C (90°F) and a low of 22°C (72°F).
+* The air quality index in Kanpur is currently moderate, with a reading of 50.
+* You can check the latest weather updates and forecasts on websites such as AccuWeather, Times of India, and Weather-Forecast.com for more detailed information.
+
+Note: The information provided is based on online search results and may not be up-to-date or accurate. It's always a good idea to check multiple sources for the latest weather information.
+2026-10-03 06:19:03 | INFO     | nova | [MICROPHONE] DISABLED
+2026-10-03 06:19:03 | INFO     | nova | [MICROPHONE] Stop requested
+2026-10-03 06:20:00 | INFO     | nova | [MICROPHONE] ENABLED
+2026-10-03 06:20:00 | INFO     | nova | [LISTENING]
+2026-10-03 06:21:58 | INFO     | nova | 
+[Nova] Wake phrase detected.
+2026-10-03 06:21:58 | INFO     | nova | [Nova] Command: summarize last 5 minutes
+2026-10-03 06:21:58 | INFO     | nova | User command: summarize last 5 minutes
+2026-10-03 06:21:58 | INFO     | nova | Using model: llama3.2:3b
+2026-10-03 06:22:02 | INFO     | nova | Nova requested tool: get_recent_transcript | Arguments: {'minutes': '5'}
+2026-10-03 06:22:02 | INFO     | nova | Tool requested: get_recent_transcript | Arguments: {'minutes': '5'}
+2026-10-03 06:22:09 | INFO     | nova | Nova response: The speaker was discussing the control of the world and how the easiest way to control it is to stop it from growing. They also mentioned that everything you eat and everything that grows will come from labs, and that seedless fruits and vegetables will become more common. The speaker expressed their excitement about this development, but also warned people to stay safe.
+2026-10-03 06:22:09 | INFO     | nova | [MICROPHONE] DISABLED
+2026-10-03 06:22:09 | INFO     | nova | [MICROPHONE] Stop requested
+2026-10-03 06:22:32 | INFO     | nova | [MICROPHONE] ENABLED
+2026-10-03 06:22:32 | INFO     | nova | [LISTENING]
+2026-10-03 06:22:47 | INFO     | nova | 
+[Nova] Wake phrase detected.
+2026-10-03 06:22:47 | INFO     | nova | [Nova] Command: summarize last five minute of the meeting and tell me your thoughts on it
+2026-10-03 06:22:47 | INFO     | nova | User command: summarize last five minute of the meeting and tell me your thoughts on it
+2026-10-03 06:22:47 | INFO     | nova | Using model: llama3.2:3b
+2026-10-03 06:22:51 | INFO     | nova | Nova requested tool: get_recent_transcript | Arguments: {'minutes': 5}
+2026-10-03 06:22:51 | INFO     | nova | Tool requested: get_recent_transcript | Arguments: {'minutes': 5}
+2026-10-03 06:23:03 | INFO     | nova | Nova response: The last five minutes of the meeting were quite interesting. It seems like the discussion turned to the implications of seedless crops and the control of food production. The speaker mentioned that seedless fruits and vegetables are a way to contain and control the growth of food, making it harder for people to reproduce and save seeds for themselves. They also mentioned that this is already happening and that it's a way for corporations to exert control over the food supply.
+
+It seems like the speaker was trying to convey a message about the dangers of relying too heavily on technology and corporate control. They mentioned that the easiest way to control the world is to stop it from growing, which suggests that they believe the erosion of natural food systems is a threat to individual freedom and autonomy.
+
+My thoughts on this are that it's a provocative and thought-provoking statement. It challenges the audience to think about the implications of our increasing reliance on technology and corporate control. It's a reminder that even seemingly small changes, like the development of seedless crops, can have significant impacts on our food systems and our society as a whole.
+2026-10-03 06:23:03 | INFO     | nova | [MICROPHONE] DISABLED
+2026-10-03 06:23:03 | INFO     | nova | [MICROPHONE] Stop requested
+2026-10-03 06:24:12 | INFO     | nova | [MICROPHONE] ENABLED
+2026-10-03 06:24:12 | INFO     | nova | [LISTENING]

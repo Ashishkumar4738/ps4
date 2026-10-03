@@ -3,7 +3,7 @@ import queue
 from audio.recorder import AudioRecorder
 from transcription.worker import TranscriptionWorker
 from meeting.manager import MeetingManager
-
+from logger_config import logger
 
 # ============================================================
 # Main
@@ -11,9 +11,9 @@ from meeting.manager import MeetingManager
 
 def main():
 
-    print("==============================================")
-    print(" PS4 Meeting Transcription")
-    print("==============================================")
+    logger.info("==============================================")
+    logger.info(" PS4 Meeting Transcription")
+    logger.info("==============================================")
 
     # --------------------------------------------------------
     # Meeting
@@ -21,9 +21,8 @@ def main():
 
     meeting = MeetingManager()
 
-    print()
-    print("Meeting file:")
-    print(f"  {meeting.file_path}")
+    logger.info("Meeting file:")
+    logger.info(f"  {meeting.file_path}")
 
     # --------------------------------------------------------
     # Transcription queue

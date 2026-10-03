@@ -5,8 +5,8 @@ import threading
 
 import sounddevice as sd
 import webrtcvad
-
-from config import (
+from logger_config import logger
+from config.config import (
     SAMPLE_RATE,
     CHANNELS,
     FRAME_MS,
@@ -54,12 +54,12 @@ class AudioRecorder:
 
         self.mic_enabled.set()
 
-        print("[MICROPHONE] ENABLED")
-        print("[LISTENING]")
+        logger.info("[MICROPHONE] ENABLED")
+        logger.info("[LISTENING]")
 
     def disable(self):
 
-        print("[MICROPHONE] DISABLED")
+        logger.info("[MICROPHONE] DISABLED")
 
         self.mic_enabled.clear()
         self.mic_stop_requested.set()
@@ -91,7 +91,7 @@ class AudioRecorder:
     ):
 
         if status:
-            print("[AUDIO]", status)
+            logger.info("[AUDIO] %s", status)
 
         # Nova command is running.
         # Tell active VAD loop to stop.
@@ -140,7 +140,7 @@ class AudioRecorder:
                     or self.mic_stop_requested.is_set()
                 ):
 
-                    print("[MICROPHONE] Stop requested")
+                    logger.info("[MICROPHONE] Stop requested")
 
                     break
 
@@ -274,7 +274,7 @@ class AudioRecorder:
 
     def run(self):
 
-        print("[AUDIO RECORDER] Started")
+        logger.info("[AUDIO RECORDER] Started")
 
         while True:
 
@@ -284,7 +284,7 @@ class AudioRecorder:
             # Reset stop request
             self.mic_stop_requested.clear()
 
-            print("[LISTENING]")
+            logger.info("[LISTENING]")
 
             frames, speech_frames = (
                 self.record_segment()

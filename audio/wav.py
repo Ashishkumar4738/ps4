@@ -1,6 +1,6 @@
 import wave
 
-from config import SAMPLE_RATE, CHANNELS
+from config.config import SAMPLE_RATE, CHANNELS
 
 # ============================================================
 # WAV handling

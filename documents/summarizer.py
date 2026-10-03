@@ -1,7 +1,7 @@
 import ollama
 
-from config import MODEL_NAME
-
+from config.config import MODEL_NAME
+from logger_config import logger
 
 CHUNK_SIZE = 12000
 
@@ -76,12 +76,8 @@ def summarize_document(document):
     if not chunks:
         raise ValueError("The document contains no text.")
 
-    print(
-        f"[DOCUMENT] {filename}"
-    )
-    print(
-        f"[DOCUMENT] Processing {len(chunks)} chunk(s)"
-    )
+    logger.info(f"[DOCUMENT] {filename}")
+    logger.info(f"[DOCUMENT] Processing {len(chunks)} chunk(s)")
 
     # Summarize each chunk.
     chunk_summaries = []
