@@ -172,5 +172,74 @@ TOOLS = [
                 "required": []
             }
         }
+    },
+    
+    {
+        "type": "function",
+        "function": {
+            "name": "list_saved_documents",
+            "description": (
+                "List all documents that Nova has processed "
+                "and saved in its document library. Use when "
+                "the user asks what documents are available."
+            ),
+            "parameters": {
+                "type": "object",
+                "properties": {},
+                "required": []
+            }
+        }
+    },
+
+    {
+        "type": "function",
+        "function": {
+            "name": "get_document_summary",
+            "description": (
+                "Retrieve the saved summary, key points, and "
+                "action items for a document by its filename "
+                "or name. Use this when the user asks to "
+                "summarize, explain, or recall a processed "
+                "document. Do not reprocess the original file."
+            ),
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "query": {
+                        "type": "string",
+                        "description": (
+                            "The document filename or name, "
+                            "for example Goa-Travel-Guide.pdf."
+                        )
+                    }
+                },
+                "required": ["query"]
+            }
+        }
+    },
+
+    {
+        "type": "function",
+        "function": {
+            "name": "search_saved_documents",
+            "description": (
+                "Search the saved document library by "
+                "filename. Use when the user wants to find "
+                "a document by a keyword in its name."
+            ),
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "query": {
+                        "type": "string",
+                        "description": (
+                            "A keyword or phrase in the "
+                            "document filename."
+                        )
+                    }
+                },
+                "required": ["query"]
+            }
+        }
     }
 ]

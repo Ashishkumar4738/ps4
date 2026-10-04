@@ -3,11 +3,15 @@ from web.search import (web_search, news_search)
 from time_tools import get_current_datetime
 import ollama
 from agent.tools import TOOLS
+
 from agent.nova_tools import (
     get_transcript_between,
     get_recent_transcript,
     search_meeting,
     segments_to_text,
+    list_saved_documents,
+    get_document_summary,
+    search_saved_documents,
 )
 from logger_config import logger
 from config.config import (MODEL_NAME, SYSTEM_PROMPT_FILE)
@@ -109,6 +113,35 @@ def execute_tool(tool_name, arguments):
             logger.info(f"[TIME TOOL] {result}")
 
             return result
+
+        
+        elif tool_name == "list_saved_documents":
+            result = list_saved_documents()
+
+            return json.dumps(
+                result,
+                ensure_ascii=False
+            )
+
+        elif tool_name == "get_document_summary":
+            result = get_document_summary(
+                arguments["query"]
+            )
+
+            return json.dumps(
+                result,
+                ensure_ascii=False
+            )
+
+        elif tool_name == "search_saved_documents":
+            result = search_saved_documents(
+                arguments["query"]
+            )
+
+            return json.dumps(
+                result,
+                ensure_ascii=False
+            )
 
         else:
             raise ValueError(

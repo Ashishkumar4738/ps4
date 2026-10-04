@@ -3,6 +3,10 @@ from datetime import datetime, timedelta
 from pathlib import Path
 from logger_config import logger
 
+from documents.document_store import (
+    list_documents,
+    find_document,
+)
 # ============================================================
 # Configuration
 # ============================================================
@@ -216,10 +220,108 @@ def segments_to_text(segments):
 
 
 # ============================================================
+# Document Library Tools
+# ============================================================
+
+def list_saved_documents():
+    """List documents processed and saved in Nova's library."""
+    documents = list_documents()
+
+    return {
+        "document_count": len(documents),
+        "documents": [
+            {
+                "document_id": doc.get("document_id"),
+                "filename": doc.get("filename"),
+                "status": doc.get("status"),
+                "processed_at": doc.get("processed_at"),
+            }
+            for doc in documents
+        ],
+    }
+
+
+
+def get_document_summary(query):
+    """Retrieve a saved document summary by filename or name."""
+    query = query.strip()
+
+    if not query:
+        raise ValueError("Document name cannot be empty.")
+
+    matches = find_document(query)
+
+    if not matches:
+        return {
+            "found": False,
+            "query": query,
+            "message": (
+                "No matching document exists in the saved "
+                "document library."
+            ),
+        }
+
+    if len(matches) > 1:
+        return {
+            "found": False,
+            "query": query,
+            "message": "Multiple documents matched.",
+            "matches": [
+                doc.get("filename")
+                for doc in matches
+            ],
+        }
+
+    document = matches[0]
+
+    return {
+        "found": True,
+        "source": "saved_document_library",
+        "filename": document.get("filename"),
+        "summary": document.get("summary", ""),
+        "key_points": document.get("key_points", []),
+        "action_items": document.get("action_items", []),
+        "note": (
+            "The summary may contain an Action Items section. "
+            "Use the saved summary as the source of truth. "
+            "Do not substitute meeting transcript information."
+        ),
+    }
+
+
+
+def search_saved_documents(query):
+    """Search the document library by filename."""
+    query = query.strip().lower()
+
+    if not query:
+        raise ValueError("Search query cannot be empty.")
+
+    documents = list_documents()
+
+    matches = [
+        {
+            "document_id": doc.get("document_id"),
+            "filename": doc.get("filename"),
+            "status": doc.get("status"),
+            "summary_preview": (
+                doc.get("summary", "")[:300]
+            ),
+        }
+        for doc in documents
+        if query in doc.get("filename", "").lower()
+    ]
+
+    return {
+        "query": query,
+        "match_count": len(matches),
+        "documents": matches,
+    }
+# ============================================================
 # Simple local test
 # ============================================================
 
-if __name__ == "__main__":
+# if __name__ == "__main__":
 
     print("\n=== Nova Tools Test ===\n")
 
@@ -250,3 +352,14 @@ if __name__ == "__main__":
             search_result["segments"]
         )
     )
+
+
+if __name__ == "__main__":
+    print("\n--- Saved Documents ---")
+    print(list_saved_documents())
+
+    print("\n--- Goa Travel Guide Summary ---")
+    print(get_document_summary("Goa-Travel-Guide.pdf"))
+
+    print("\n--- Search: Goa ---")
+    print(search_saved_documents("Goa"))
