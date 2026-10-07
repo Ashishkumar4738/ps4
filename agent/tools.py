@@ -43,7 +43,7 @@ TOOLS = [
     {
         "type": "function",
         "function": {
-            "name": "get_recent_transcript",
+            "name": "summarize_meeting",
             "description": (
                 "Retrieve the most recent portion "
                 "of the meeting transcript."
@@ -196,11 +196,17 @@ TOOLS = [
         "function": {
             "name": "get_document_summary",
             "description": (
-                "Retrieve the saved summary, key points, and "
-                "action items for a document by its filename "
-                "or name. Use this when the user asks to "
-                "summarize, explain, or recall a processed "
-                "document. Do not reprocess the original file."
+                "Retrieve the saved summary, key points, and action items "
+                "for a specific document in Nova's document library. "
+                "ONLY use this tool when the user asks about an uploaded, "
+                "saved, or previously processed document, or explicitly "
+                "identifies a document by its filename or name. "
+                "NEVER use this tool to summarize a meeting, meeting "
+                "transcript, recent discussion, or what participants said. "
+                "For meeting summaries, use summarize_meeting to "
+                "retrieve the transcript, then summarize the returned "
+                "segments. If the user asks about a specific meeting topic, "
+                "use search_meeting instead. Do not reprocess the original file."
             ),
             "parameters": {
                 "type": "object",

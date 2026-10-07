@@ -1,12 +1,12 @@
 import re
 from agent.nova_agent import ask_nova
 from logger_config import logger
-
+from config.config import WAKE_PHRASE
 # ============================================================
 # Configuration
 # ============================================================
 
-WAKE_PHRASE = "computer"
+
 
 # Number of seconds after wake phrase during which
 # we expect the command.

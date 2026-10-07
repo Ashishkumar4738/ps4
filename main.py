@@ -4,7 +4,6 @@ from audio.recorder import AudioRecorder
 from transcription.worker import TranscriptionWorker
 from meeting.manager import MeetingManager
 from logger_config import logger
-
 # ============================================================
 # Main
 # ============================================================

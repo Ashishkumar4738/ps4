@@ -1,58 +1,107 @@
-import os
 import json
 import threading
 from datetime import datetime
 
-from config.config import MEETING_FILE, MEETING_DIR
+from config.config import MEETING_FILE
+from database.connection import get_connection
+from database.schema import initialize_database
+from logger_config import logger
+
 
 class MeetingManager:
-
     def __init__(self):
-        os.makedirs(MEETING_DIR, exist_ok=True)
+        initialize_database()
 
-        meeting_start = datetime.now()
+        meeting_start = datetime.now().astimezone()
 
         self.meeting_data = {
             "meeting_id": meeting_start.strftime("%Y%m%d_%H%M%S"),
             "started_at": meeting_start.isoformat(),
-            "segments": []
+            "segments": [],
         }
 
         self.lock = threading.Lock()
 
-        self.save()
-
-    def add_segment(self, segment):
-        with self.lock:
-            self.meeting_data["segments"].append(segment)
-
-            self.meeting_data["segments"].sort(
-                key=lambda x: x["segment_id"]
+        with get_connection() as connection:
+            connection.execute(
+                """
+                INSERT INTO meetings (meeting_id, started_at, ended_at)
+                VALUES (?, ?, NULL)
+                """,
+                (
+                    self.meeting_data["meeting_id"],
+                    self.meeting_data["started_at"],
+                ),
             )
 
-        self.save()
+        logger.info(
+            "Meeting created in SQLite: %s",
+            self.meeting_data["meeting_id"],
+        )
+
+    def add_segment(self, segment):
+        segment = dict(segment)
+
+        with self.lock:
+            with get_connection() as connection:
+                connection.execute(
+                    """
+                    INSERT INTO meeting_segments (
+                        meeting_id,
+                        segment_id,
+                        timestamp,
+                        text,
+                        segment_data
+                    )
+                    VALUES (?, ?, ?, ?, ?)
+                    """,
+                    (
+                        self.meeting_data["meeting_id"],
+                        segment["segment_id"],
+                        segment["timestamp"],
+                        segment["text"],
+                        json.dumps(segment, ensure_ascii=False),
+                    ),
+                )
+
+            self.meeting_data["segments"].append(segment)
+            self.meeting_data["segments"].sort(
+                key=lambda item: item["segment_id"]
+            )
+
+        logger.debug(
+            "Saved transcript segment %s",
+            segment["segment_id"],
+        )
 
     def save(self):
-        with self.lock:
-            with open(
-                MEETING_FILE,
-                "w",
-                encoding="utf-8"
-            ) as f:
-                json.dump(
-                    self.meeting_data,
-                    f,
-                    indent=2,
-                    ensure_ascii=False
-                )
+        # Transcript data is written to SQLite by add_segment().
+        # Kept for compatibility with existing callers.
+        logger.debug("Meeting data is persisted in SQLite")
 
     def finish(self):
         with self.lock:
-            self.meeting_data["ended_at"] = (
-                datetime.now().isoformat()
-            )
+            ended_at = datetime.now().astimezone().isoformat()
 
-        self.save()
+            with get_connection() as connection:
+                connection.execute(
+                    """
+                    UPDATE meetings
+                    SET ended_at = ?
+                    WHERE meeting_id = ?
+                    """,
+                    (
+                        ended_at,
+                        self.meeting_data["meeting_id"],
+                    ),
+                )
+
+            self.meeting_data["ended_at"] = ended_at
+
+        logger.info(
+            "Meeting finished: %s",
+            self.meeting_data["meeting_id"],
+        )
 
     def get_segment_count(self):
         with self.lock:
@@ -60,4 +109,5 @@ class MeetingManager:
 
     @property
     def file_path(self):
-        return MEETING_FILE
+        from config.config import DATABASE_FILE
+        return str(DATABASE_FILE)

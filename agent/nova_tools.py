@@ -2,7 +2,7 @@ import json
 from datetime import datetime, timedelta
 from pathlib import Path
 from logger_config import logger
-
+from database.connection import get_connection
 from documents.document_store import (
     list_documents,
     find_document,
@@ -18,16 +18,45 @@ MEETING_FILE = Path(__file__).resolve().parent.parent /"meetings" / "meeting.jso
 # Internal helpers
 # ============================================================
 
-def load_meeting():
-    """Load the current meeting.json file."""
-    if not MEETING_FILE.exists():
-        logger.error(f"Meeting file not found: {MEETING_FILE}")
-        raise FileNotFoundError(
-            f"Meeting file not found: {MEETING_FILE}"
-        )
 
-    with open(MEETING_FILE, "r", encoding="utf-8") as f:
-        return json.load(f)
+def load_meeting():
+    """
+    Load the latest meeting and its transcript from SQLite.
+    """
+
+    with get_connection() as connection:
+        meeting_row = connection.execute("""
+            SELECT meeting_id, started_at, ended_at
+            FROM meetings
+            ORDER BY started_at DESC
+            LIMIT 1
+        """).fetchone()
+
+        if meeting_row is None:
+            logger.error("No meetings found in SQLite")
+            raise FileNotFoundError(
+                "No meetings found in the SQLite database"
+            )
+
+        segment_rows = connection.execute("""
+            SELECT segment_data
+            FROM meeting_segments
+            WHERE meeting_id = ?
+            ORDER BY segment_id
+        """, (
+            meeting_row["meeting_id"],
+        )).fetchall()
+
+    return {
+        "meeting_id": meeting_row["meeting_id"],
+        "started_at": meeting_row["started_at"],
+        "ended_at": meeting_row["ended_at"],
+        "segments": [
+            json.loads(row["segment_data"])
+            for row in segment_rows
+        ],
+    }
+
 
 
 def parse_timestamp(timestamp):
@@ -104,13 +133,13 @@ def get_transcript_between(start_time, end_time):
 # Tool 2: Get recent transcript
 # ============================================================
 
-def get_recent_transcript(minutes):
+def summarize_meeting(minutes):
     """
     Get transcript from the most recent `minutes`.
 
     Example:
 
-        get_recent_transcript(10)
+        summarize_meeting(10)
     """
 
     meeting = load_meeting()
@@ -335,7 +364,7 @@ def search_saved_documents(query):
 
     print("\n--- Recent transcript (5 minutes) ---")
 
-    recent = get_recent_transcript(5)
+    recent = summarize_meeting(5)
 
     print(
         segments_to_text(

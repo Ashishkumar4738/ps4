@@ -1,3 +1,4 @@
+
 import hashlib
 import json
 import logging
@@ -5,17 +6,14 @@ import logging
 from datetime import datetime
 from pathlib import Path
 
+from config.config import PROJECT_DIR
+from database.connection import get_connection
+from database.schema import initialize_database
 
-# ============================================================
-# Configuration
-# ============================================================
-
-PROJECT_DIR = Path(__file__).resolve().parent.parent
+logger = logging.getLogger(__name__)
 
 LIBRARY_DIR = PROJECT_DIR / "document_library"
 SUMMARY_FILE = LIBRARY_DIR / "summaries.json"
-
-logger = logging.getLogger(__name__)
 
 
 # ============================================================
@@ -24,80 +22,65 @@ logger = logging.getLogger(__name__)
 
 def initialize_store():
     """
-    Create the library directory and JSON file if missing.
+    Initialize SQLite and ensure the legacy JSON file exists.
     """
 
-    LIBRARY_DIR.mkdir(
-        parents=True,
-        exist_ok=True
-    )
+    LIBRARY_DIR.mkdir(parents=True, exist_ok=True)
 
     if not SUMMARY_FILE.exists():
-        save_all_documents([])
+        SUMMARY_FILE.write_text("[]", encoding="utf-8")
 
+    initialize_database()
     logger.info("Document store initialized")
 
 
 # ============================================================
-# Internal JSON helpers
+# JSON serialization helpers
+# ============================================================
+
+def _serialize_list(value):
+    return json.dumps(value or [], ensure_ascii=False)
+
+
+def _deserialize_document(row):
+    if row is None:
+        return None
+
+    document = dict(row)
+
+    document["key_points"] = json.loads(
+        document["key_points"]
+    )
+    document["action_items"] = json.loads(
+        document["action_items"]
+    )
+
+    return document
+
+
+# ============================================================
+# Legacy JSON helpers
 # ============================================================
 
 def load_all_documents():
     """
-    Load all document records from JSON.
+    Return all documents from SQLite as Python dictionaries.
+    Keeps the previous function interface.
     """
 
     initialize_store()
 
-    try:
-        with SUMMARY_FILE.open(
-            "r",
-            encoding="utf-8"
-        ) as file:
-            data = json.load(file)
+    with get_connection() as connection:
+        rows = connection.execute("""
+            SELECT *
+            FROM documents
+            ORDER BY processed_at DESC
+        """).fetchall()
 
-        if not isinstance(data, list):
-            raise ValueError(
-                "Document store must contain a JSON list."
-            )
-
-        return data
-
-    except json.JSONDecodeError as exc:
-        logger.exception(
-            "Document store JSON is invalid"
-        )
-        raise RuntimeError(
-            f"Cannot read document store: {SUMMARY_FILE}"
-        ) from exc
-
-
-def save_all_documents(documents):
-    """
-    Write document records to JSON atomically.
-    """
-
-    LIBRARY_DIR.mkdir(
-        parents=True,
-        exist_ok=True
-    )
-
-    temporary_file = SUMMARY_FILE.with_suffix(
-        ".tmp"
-    )
-
-    with temporary_file.open(
-        "w",
-        encoding="utf-8"
-    ) as file:
-        json.dump(
-            documents,
-            file,
-            ensure_ascii=False,
-            indent=2
-        )
-
-    temporary_file.replace(SUMMARY_FILE)
+    return [
+        _deserialize_document(row)
+        for row in rows
+    ]
 
 
 # ============================================================
@@ -105,9 +88,7 @@ def save_all_documents(documents):
 # ============================================================
 
 def calculate_file_hash(filename):
-    """
-    Calculate SHA-256 of a file.
-    """
+    """Calculate the SHA-256 hash of a file."""
 
     path = Path(filename).expanduser().resolve()
     digest = hashlib.sha256()
@@ -115,7 +96,7 @@ def calculate_file_hash(filename):
     with path.open("rb") as file:
         for chunk in iter(
             lambda: file.read(1024 * 1024),
-            b""
+            b"",
         ):
             digest.update(chunk)
 
@@ -124,10 +105,8 @@ def calculate_file_hash(filename):
 
 def find_document(query):
     """
-    Find documents by filename or document ID.
-
-    Exact matches are preferred. If multiple records match
-    loosely, return all matches to avoid guessing.
+    Find documents by ID or filename.
+    Exact matches take precedence over partial matches.
     """
 
     query = query.strip()
@@ -138,45 +117,30 @@ def find_document(query):
     documents = load_all_documents()
     normalized_query = query.casefold()
 
-    # Exact filename or ID match.
     exact_matches = [
-        document
-        for document in documents
+        document for document in documents
         if (
-            document.get("filename", "").casefold()
-            == normalized_query
-            or document.get("document_id")
-            == query
+            document["filename"].casefold() == normalized_query
+            or document["document_id"] == query
         )
     ]
 
     if exact_matches:
         return exact_matches
 
-    # Allow a name without its extension.
     stem_matches = [
-        document
-        for document in documents
-        if (
-            Path(
-                document.get("filename", "")
-            ).stem.casefold()
-            == normalized_query
-        )
+        document for document in documents
+        if Path(document["filename"]).stem.casefold()
+        == normalized_query
     ]
 
     if stem_matches:
         return stem_matches
 
-    # Partial matching for natural voice queries.
-    partial_matches = [
-        document
-        for document in documents
-        if normalized_query
-        in document.get("filename", "").casefold()
+    return [
+        document for document in documents
+        if normalized_query in document["filename"].casefold()
     ]
-
-    return partial_matches
 
 
 # ============================================================
@@ -189,13 +153,9 @@ def save_summary(
     file_hash=None,
     chunk_count=0,
     key_points=None,
-    action_items=None
+    action_items=None,
 ):
-    """
-    Save a document summary.
-
-    Existing records with the same source path are updated.
-    """
+    """Save a document summary in SQLite."""
 
     path = Path(filename).expanduser().resolve()
 
@@ -205,67 +165,74 @@ def save_summary(
         )
 
     if not summary or not summary.strip():
-        raise ValueError(
-            "Cannot save an empty summary."
-        )
+        raise ValueError("Cannot save an empty summary.")
 
     if file_hash is None:
         file_hash = calculate_file_hash(path)
 
-    documents = load_all_documents()
     now = datetime.now().astimezone().isoformat(
         timespec="seconds"
     )
 
-    # Use the source path to distinguish files with
-    # identical filenames in different directories.
-    existing = next(
-        (
-            document
-            for document in documents
-            if document.get("source_path") == str(path)
-        ),
-        None
-    )
+    # Keep the same ID when updating an existing source path.
+    with get_connection() as connection:
+        existing = connection.execute("""
+            SELECT document_id
+            FROM documents
+            WHERE source_path = ?
+        """, (str(path),)).fetchone()
 
-    if existing:
-        existing.update({
-            "filename": path.name,
-            "file_hash": file_hash,
-            "summary": summary,
-            "chunk_count": chunk_count,
-            "key_points": key_points or [],
-            "action_items": action_items or [],
-            "status": "processed",
-            "processed_at": now,
-        })
+        document_id = (
+            existing["document_id"]
+            if existing
+            else file_hash[:16]
+        )
 
-        record = existing
+        connection.execute("""
+            INSERT INTO documents (
+                document_id,
+                filename,
+                source_path,
+                file_hash,
+                summary,
+                chunk_count,
+                key_points,
+                action_items,
+                status,
+                processed_at
+            )
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            ON CONFLICT(source_path) DO UPDATE SET
+                filename = excluded.filename,
+                file_hash = excluded.file_hash,
+                summary = excluded.summary,
+                chunk_count = excluded.chunk_count,
+                key_points = excluded.key_points,
+                action_items = excluded.action_items,
+                status = excluded.status,
+                processed_at = excluded.processed_at
+        """, (
+            document_id,
+            path.name,
+            str(path),
+            file_hash,
+            summary,
+            chunk_count,
+            _serialize_list(key_points),
+            _serialize_list(action_items),
+            "processed",
+            now,
+        ))
 
-    else:
-        record = {
-            "document_id": file_hash[:16],
-            "filename": path.name,
-            "source_path": str(path),
-            "file_hash": file_hash,
-            "summary": summary,
-            "chunk_count": chunk_count,
-            "key_points": key_points or [],
-            "action_items": action_items or [],
-            "status": "processed",
-            "processed_at": now,
-        }
+        row = connection.execute("""
+            SELECT *
+            FROM documents
+            WHERE source_path = ?
+        """, (str(path),)).fetchone()
 
-        documents.append(record)
+    logger.info("Saved summary for %s", path.name)
 
-    save_all_documents(documents)
-
-    logger.info(
-        "Saved summary for %s",
-        path.name
-    )
-
-    return record
+    return _deserialize_document(row)
 
 
 # ============================================================
@@ -273,20 +240,16 @@ def save_summary(
 # ============================================================
 
 def list_documents():
-    """
-    Return a compact list of saved document records.
-    """
-
-    documents = load_all_documents()
+    """Return compact document records."""
 
     return [
         {
-            "document_id": document.get("document_id"),
-            "filename": document.get("filename"),
-            "status": document.get("status"),
-            "processed_at": document.get("processed_at"),
+            "document_id": document["document_id"],
+            "filename": document["filename"],
+            "status": document["status"],
+            "processed_at": document["processed_at"],
         }
-        for document in documents
+        for document in load_all_documents()
     ]
 
 
@@ -295,16 +258,18 @@ def list_documents():
 # ============================================================
 
 def find_by_hash(file_hash):
-    """
-    Find documents with identical file content.
-    """
+    """Find documents with identical file content."""
 
-    documents = load_all_documents()
+    with get_connection() as connection:
+        rows = connection.execute("""
+            SELECT *
+            FROM documents
+            WHERE file_hash = ?
+        """, (file_hash,)).fetchall()
 
     return [
-        document
-        for document in documents
-        if document.get("file_hash") == file_hash
+        _deserialize_document(row)
+        for row in rows
     ]
 
 
@@ -313,27 +278,16 @@ def find_by_hash(file_hash):
 # ============================================================
 
 def remove_document(document_id):
-    """
-    Remove a record from the summary library.
-    Does not delete the original document.
-    """
+    """Remove a database record, not the original file."""
 
-    documents = load_all_documents()
+    with get_connection() as connection:
+        cursor = connection.execute("""
+            DELETE FROM documents
+            WHERE document_id = ?
+        """, (document_id,))
 
-    remaining = [
-        document
-        for document in documents
-        if document.get("document_id") != document_id
-    ]
-
-    if len(remaining) == len(documents):
+    if cursor.rowcount == 0:
         return False
 
-    save_all_documents(remaining)
-
-    logger.info(
-        "Removed document record %s",
-        document_id
-    )
-
+    logger.info("Removed document record %s", document_id)
     return True

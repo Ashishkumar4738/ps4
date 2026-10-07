@@ -11,7 +11,7 @@ MIN_SPEECH_MS = 300
 MAX_SEGMENT_SECONDS = 30
 
 AUDIO_DIR = "/tmp/ps4_audio"
-
+WAKE_PHRASE = "computer"
 MEETING_DIR = os.path.expanduser("~/ps4/meetings")
 MEETING_FILE = os.path.join(MEETING_DIR, "meeting.json")
 
@@ -28,3 +28,12 @@ MODEL_NAME = "llama3.2:3b"
 SYSTEM_PROMPT_FILE = (
     Path(__file__).resolve().parent /".."/ "agent" / "system_prompt.txt"
 )
+
+# ============================================================
+# Database
+# ============================================================
+
+PROJECT_DIR = Path(__file__).resolve().parent.parent
+
+DATA_DIR = PROJECT_DIR / "data"
+DATABASE_FILE = DATA_DIR / "nova.db"

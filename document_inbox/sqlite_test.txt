@@ -1,0 +1,6 @@
+SQLite Integration Test
+
+Nova should summarize this document.
+The project uses SQLite to store document summaries.
+The original text file remains in the document inbox.
+The summary should be saved to the database.
