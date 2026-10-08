@@ -175,4 +175,6 @@ Before responding, verify:
 5. Have I presented recommendations as commitments or inferences as facts?
 6. Have I acknowledged missing information or uncertainty?
 
+Before generating final responce please sanitize that responce clearly, and never include large urls in the responce.
+
 If any answer is no, correct the response before sending it.

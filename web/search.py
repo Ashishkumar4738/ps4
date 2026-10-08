@@ -1,5 +1,10 @@
 from ddgs import DDGS
+
 from logger_config import logger
+from internet_control import (
+    is_internet_enabled,
+)
+
 
 def web_search(query, max_results=5):
     """
@@ -8,8 +13,26 @@ def web_search(query, max_results=5):
     Returns:
         list[dict]: Search results.
     """
-    logger.info(f"Performing web search for query: {query} with max results: {max_results}")
+
+    if not is_internet_enabled():
+        logger.warning(
+            "[WEB SEARCH BLOCKED] "
+            "Internet access is disabled."
+        )
+
+        return [
+            {
+                "error": "Internet access is currently disabled."
+            }
+        ]
+
+    logger.info(
+        f"Performing web search for query: {query} "
+        f"with max results: {max_results}"
+    )
+
     try:
+
         results = DDGS().text(
             query,
             max_results=max_results
@@ -18,7 +41,11 @@ def web_search(query, max_results=5):
         return results
 
     except Exception as e:
-        logger.error(f"[WEB SEARCH ERROR] {e}")
+
+        logger.error(
+            f"[WEB SEARCH ERROR] {e}"
+        )
+
         return []
 
 
@@ -27,20 +54,42 @@ def news_search(query, max_results=5):
     Search recent news using DuckDuckGo.
 
     Returns:
-        list[dict]: News results.
+        list[dict]: Search results.
     """
-    logger.info(f"Performing news search for query: {query} with max results: {max_results}")
+
+    if not is_internet_enabled():
+        logger.warning(
+            "[NEWS SEARCH BLOCKED] "
+            "Internet access is disabled."
+        )
+
+        return [
+            {
+                "error": "Internet access is currently disabled."
+            }
+        ]
+
+    logger.info(
+        f"Performing news search for query: {query} "
+        f"with max results: {max_results}"
+    )
+
     try:
+
         results = DDGS().news(
             query,
             max_results=max_results
         )
+
         return results
 
     except Exception as e:
-        logger.error(f"[NEWS SEARCH ERROR] {e}")
-        return []
 
+        logger.error(
+            f"[NEWS SEARCH ERROR] {e}"
+        )
+
+        return []
 
 if __name__ == "__main__":
 

@@ -4,6 +4,8 @@ from audio.recorder import AudioRecorder
 from transcription.worker import TranscriptionWorker
 from meeting.manager import MeetingManager
 from logger_config import logger
+from internet_control import start_internet_toggle
+from audio.keyboard import start_audio_control
 # ============================================================
 # Main
 # ============================================================
@@ -13,7 +15,8 @@ def main():
     logger.info("==============================================")
     logger.info(" PS4 Meeting Transcription")
     logger.info("==============================================")
-
+    start_internet_toggle()
+    start_audio_control()
     # --------------------------------------------------------
     # Meeting
     # --------------------------------------------------------

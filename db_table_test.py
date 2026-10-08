@@ -5,7 +5,7 @@ from tabulate import tabulate
 connection = get_connection()
 
 cursor = connection.execute("""
-    SELECT * FROM conversation_events;
+    SELECT * FROM meetings
     
 """)
 # cursor = connection.execute("""

@@ -3,10 +3,14 @@ import subprocess
 import tempfile
 import time
 from logger_config import logger
+from audio.control import (
+    set_tts_process,
+    clear_tts_process,
+)
 
-PIPER_MODEL = "/home/ashish/ps4/models/tts/en_US-lessac-medium.onnx"
+PIPER_MODEL = "/home/ashish-kumar/Projects/ps4/models/tts/en_US-lessac-medium.onnx"
 
-
+PAPLAY = "/usr/bin/paplay"
 def speak(text):
 
     if not text:
@@ -44,13 +48,19 @@ def speak(text):
         print("[TTS] Starting playback...")
 
         player = subprocess.Popen(
-            ["paplay", wav_file]
+            [PAPLAY, wav_file]
         )
+
+        set_tts_process(player)
 
         print("[TTS] Waiting for playback...")
 
-        player.wait()
-        time.sleep(2)  # Small delay to ensure playback finishes
+        try:
+            player.wait()
+        finally:
+            clear_tts_process(player)
+            
+        time.sleep(1)  # Small delay to ensure playback finishes
         print("[TTS] Playback finished")
 
     finally:

@@ -16,14 +16,16 @@ MEETING_DIR = os.path.expanduser("~/ps4/meetings")
 MEETING_FILE = os.path.join(MEETING_DIR, "meeting.json")
 
 WHISPER = os.path.expanduser(
-    "~/ps4/whisper.cpp/build/bin/whisper-cli"
+    "/home/ashish-kumar/Projects/ps4/whisper.cpp/build/bin/whisper-cli"
 )
 
 MODEL = os.path.expanduser(
-    "~/ps4/whisper.cpp/models/ggml-small.en.bin"
+    "/home/ashish-kumar/Projects/ps4/whisper.cpp/models/ggml-small.en.bin"
 )
 
 MODEL_NAME = "llama3.2:3b"
+# MODEL_NAME = "qwen3:4b"
+# MODEL_NAME = "llama3.1:8b"
 
 SYSTEM_PROMPT_FILE = (
     Path(__file__).resolve().parent /".."/ "agent" / "system_prompt.txt"
