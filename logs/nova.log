@@ -5655,3 +5655,51 @@ Overall, the conversation seems to be setting the stage for the hackathon and pr
 2026-10-09 17:11:41 | INFO     | nova | [LISTENING]
 2026-10-09 17:11:41 | INFO     | nova | [LISTENING]
 2026-10-09 17:11:41 | INFO     | nova | Meeting finished: 20261009_170955
+2026-10-09 19:52:34 | INFO     | nova | ==============================================
+2026-10-09 19:52:34 | INFO     | nova |  PS4 Meeting Transcription
+2026-10-09 19:52:34 | INFO     | nova | ==============================================
+2026-10-09 19:52:34 | INFO     | nova | [INTERNET] Starting Right Shift listener for Internet toggle...
+2026-10-09 19:52:34 | INFO     | nova | [INTERNET] Listening for Right Shift on: 
+2026-10-09 19:52:34 | INFO     | nova | Document watcher launched
+2026-10-09 19:52:34 | INFO     | nova | SQLite database initialized
+2026-10-09 19:52:34 | INFO     | nova | SQLite database initialized
+2026-10-09 19:52:34 | INFO     | nova | Meeting created in SQLite: 20261009_195234
+2026-10-09 19:52:34 | INFO     | nova | Meeting file:
+2026-10-09 19:52:34 | INFO     | nova |   /home/ashish-kumar/Projects/ps4/data/nova.db
+2026-10-09 19:52:34 | INFO     | nova | [AUDIO RECORDER] Started
+2026-10-09 19:52:34 | INFO     | nova | [LISTENING]
+2026-10-09 19:52:35 | INFO     | nova | [LISTENING]
+2026-10-09 19:52:42 | INFO     | nova | [LISTENING]
+2026-10-09 19:52:47 | INFO     | nova | 
+[Nova] Wake phrase detected.
+2026-10-09 19:52:47 | INFO     | nova | [Nova] Command: give you summary between 4pm to 5pm.
+2026-10-09 19:52:47 | INFO     | nova | User command: give you summary between 4pm to 5pm.
+2026-10-09 19:52:47 | INFO     | nova | Using model: llama3.2:3b
+2026-10-09 19:52:51 | INFO     | nova | [LISTENING]
+2026-10-09 19:52:53 | INFO     | nova | Nova requested tool: get_summary_between | Arguments: {'end_time': '17:00:00', 'start_time': '16:00:00'}
+2026-10-09 19:52:53 | INFO     | nova | Tool requested: get_summary_between | Arguments: {'end_time': '17:00:00', 'start_time': '16:00:00'}
+2026-10-09 19:52:53 | INFO     | nova | Fetching transcript between 2026-10-09T16:00:00+05:30 and 2026-10-09T17:00:00+05:30
+2026-10-09 19:52:53 | INFO     | nova | Transcript query returned 47 segments
+2026-10-09 19:52:54 | INFO     | nova | [LISTENING]
+2026-10-09 19:52:57 | INFO     | nova | [LISTENING]
+2026-10-09 19:52:59 | INFO     | nova | Nova response: The transcript provided appears to be a meeting recording, likely from a conference or presentation, where a speaker discusses various topics related to technology, specifically computing and programming. The speaker mentions different programming languages, such as Java, and discusses the importance of competition among different technology stacks. They also touch on the concept of combinations and the need for collaboration among colleagues.
+
+Some notable phrases and sentences from the transcript include:
+
+* "So, you give your AWS to them and take a project."
+* "Now you have six stars. Every technology stack that is great consists of tools, basically competition."
+* "when I see all the combinations spins, noise is like having spins on the line along with the description."
+* "You need to take a picture if you are able to walk all the combinations."
+* "(speaking in foreign language) (speaking in foreign language)"
+
+The transcript also includes some background noise, such as people chattering, and occasional inaudible sounds.
+
+Overall, the transcript seems to be a collection of quotes and phrases from a meeting or presentation, likely related to technology and programming.
+2026-10-09 19:52:59 | INFO     | nova | [MICROPHONE] DISABLED
+2026-10-09 19:52:59 | INFO     | nova | [MICROPHONE] Stop requested
+2026-10-09 19:52:59 | INFO     | nova | [TTS] Generating Piper audio...
+2026-10-09 19:53:08 | INFO     | nova | [TTS] Stop requested. Stopping playback.
+2026-10-09 19:53:10 | INFO     | nova | [MICROPHONE] ENABLED
+2026-10-09 19:53:10 | INFO     | nova | [LISTENING]
+2026-10-09 19:53:10 | INFO     | nova | [LISTENING]
+2026-10-09 19:53:11 | INFO     | nova | Meeting finished: 20261009_195234
