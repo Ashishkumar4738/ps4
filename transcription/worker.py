@@ -65,6 +65,8 @@ class TranscriptionWorker:
         self.pending_results = {}
         self.next_segment_id = 1
 
+
+
     # ========================================================
     # START
     # ========================================================
@@ -133,6 +135,7 @@ class TranscriptionWorker:
             filename = item["filename"]
             duration_seconds = item["duration_seconds"]
             timestamp = item["timestamp"]
+            wake_word_detected = item.get("wake_word_detected", False)
 
             try:
 
@@ -161,7 +164,8 @@ class TranscriptionWorker:
                     "filename": filename,
                     "duration_seconds": duration_seconds,
                     "timestamp": timestamp,
-                    "transcription": transcription
+                    "transcription": transcription,
+                    "wake_word_detected": wake_word_detected,
                 })
 
             except Exception as e:
@@ -180,7 +184,8 @@ class TranscriptionWorker:
                     "duration_seconds": duration_seconds,
                     "timestamp": timestamp,
                     "transcription": "",
-                    "error": str(e)
+                    "error": str(e),
+                    "wake_word_detected": wake_word_detected,
                 })
 
             finally:
@@ -291,6 +296,7 @@ class TranscriptionWorker:
         transcription = result["transcription"]
         timestamp = result["timestamp"]
         duration_seconds = result["duration_seconds"]
+        wake_word_detected = result.get("wake_word_detected", False)
 
         print()
 
@@ -325,9 +331,12 @@ class TranscriptionWorker:
         # Send transcript to Nova
         # ----------------------------------------------------
 
-        nova_response = self.nova.process(
-            transcription
-        )
+
+
+        if wake_word_detected:
+            self.nova.activate_from_wake_word()
+
+        nova_response = self.nova.process(transcription)
 
         # ----------------------------------------------------
         # Normal meeting conversation

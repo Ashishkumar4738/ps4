@@ -2,6 +2,7 @@ import os
 import queue
 import time
 import threading
+from agent.wake_word import WakeWordDetector
 
 import sounddevice as sd
 import webrtcvad
@@ -42,6 +43,9 @@ class AudioRecorder:
 
         # Segment counter
         self.segment_id = 0
+        # Wake-word detector
+        self.wake_word_detector = WakeWordDetector()
+        self.wake_word_detected = threading.Event()
 
         # Make sure audio directory exists
         os.makedirs(AUDIO_DIR, exist_ok=True)
@@ -82,6 +86,7 @@ class AudioRecorder:
     # Audio callback
     # ========================================================
 
+    
     def callback(
         self,
         indata,
@@ -89,22 +94,26 @@ class AudioRecorder:
         time_info,
         status
     ):
-
         if status:
             logger.info("[AUDIO] %s", status)
 
-        # Nova command is running.
-        # Tell active VAD loop to stop.
         if not self.mic_enabled.is_set():
-
             self.mic_stop_requested.set()
-
-            # Wake up audio_queue.get()
             self.audio_queue.put(None)
-
             return
 
-        self.audio_queue.put(bytes(indata))
+        audio_bytes = bytes(indata)
+
+        # Check for the wake phrase using the same microphone stream.
+        try:
+            if self.wake_word_detector.process_audio(audio_bytes):
+                self.wake_word_detected.set()
+                print("[WAKE WORD DETECTED] Hey Jarvis")
+        except Exception:
+            logger.exception("[WAKE WORD] Detection failed")
+
+        # Preserve the existing VAD and transcription pipeline.
+        self.audio_queue.put(audio_bytes)
 
     # ========================================================
     # Capture one speech segment
@@ -206,7 +215,8 @@ class AudioRecorder:
     def process_segment(
         self,
         frames,
-        speech_frames
+        speech_frames,
+        wake_word_detected=False,
     ):
 
         speech_duration_ms = (
@@ -215,10 +225,8 @@ class AudioRecorder:
 
         # Ignore extremely short sounds
         if speech_duration_ms < MIN_SPEECH_MS:
-
             print("[IGNORED: TOO SHORT]")
-
-            return
+            return False
 
         # ====================================================
         # Create temporary WAV
@@ -260,13 +268,15 @@ class AudioRecorder:
             "segment_id": self.segment_id,
             "filename": filename,
             "duration_seconds": duration_seconds,
-            "timestamp": timestamp
+            "timestamp": timestamp,
+            "wake_word_detected": wake_word_detected,
         })
 
         print(
             f"[QUEUED FOR TRANSCRIPTION] "
             f"Segment {self.segment_id}"
         )
+        return True
 
     # ========================================================
     # Main recorder loop
@@ -298,10 +308,18 @@ class AudioRecorder:
 
                 continue
 
-            self.process_segment(
+            wake_detected = self.wake_word_detected.is_set()
+            
+            queued = self.process_segment(
                 frames,
-                speech_frames
+                speech_frames,
+                wake_word_detected=wake_detected,
             )
+            
+            # Clear the event only after its detection has been
+            # attached to a successfully queued segment.
+            if queued and wake_detected:
+                self.wake_word_detected.clear()
 
             print("[LISTENING CONTINUES]")
 

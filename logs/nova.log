@@ -5703,3 +5703,248 @@ Overall, the transcript seems to be a collection of quotes and phrases from a me
 2026-10-09 19:53:10 | INFO     | nova | [LISTENING]
 2026-10-09 19:53:10 | INFO     | nova | [LISTENING]
 2026-10-09 19:53:11 | INFO     | nova | Meeting finished: 20261009_195234
+2026-10-09 22:14:46 | INFO     | nova | [WAKE WORD] Hey Jarvis model loaded
+2026-10-09 22:41:05 | INFO     | nova | ==============================================
+2026-10-09 22:41:05 | INFO     | nova |  PS4 Meeting Transcription
+2026-10-09 22:41:05 | INFO     | nova | ==============================================
+2026-10-09 22:41:05 | INFO     | nova | [INTERNET] Starting Right Shift listener for Internet toggle...
+2026-10-09 22:41:05 | INFO     | nova | [INTERNET] Listening for Right Shift on: 
+2026-10-09 22:41:05 | INFO     | nova | Document watcher launched
+2026-10-09 22:41:05 | INFO     | nova | SQLite database initialized
+2026-10-09 22:41:05 | INFO     | nova | SQLite database initialized
+2026-10-09 22:41:05 | INFO     | nova | Meeting created in SQLite: 20261009_224105
+2026-10-09 22:41:05 | INFO     | nova | Meeting file:
+2026-10-09 22:41:05 | INFO     | nova |   /home/ashish-kumar/Projects/ps4/data/nova.db
+2026-10-09 22:41:06 | INFO     | nova | [WAKE WORD] Hey Jarvis model loaded
+2026-10-09 22:41:06 | INFO     | nova | [AUDIO RECORDER] Started
+2026-10-09 22:41:06 | INFO     | nova | [LISTENING]
+2026-10-09 22:41:09 | INFO     | nova | [WAKE WORD] Hey Jarvis detected (score=0.994)
+2026-10-09 22:41:12 | INFO     | nova | [LISTENING]
+2026-10-09 22:41:13 | INFO     | nova | [LISTENING]
+2026-10-09 22:41:20 | INFO     | nova | [Nova] Wake phrase detected by openWakeWord.
+2026-10-09 22:41:20 | INFO     | nova | [Nova] Command received: Hello Jarvis, what can you do?
+2026-10-09 22:41:20 | INFO     | nova | User command: Hello Jarvis, what can you do?
+2026-10-09 22:41:20 | INFO     | nova | Using model: llama3.2:3b
+2026-10-09 22:41:39 | INFO     | nova | [LISTENING]
+2026-10-09 22:41:40 | INFO     | nova | Nova requested tool: get_current_datetime | Arguments: {}
+2026-10-09 22:41:40 | INFO     | nova | Tool requested: get_current_datetime | Arguments: {}
+2026-10-09 22:41:40 | INFO     | nova | [TIME TOOL] Location: India
+Date: Friday, 09 October 2026
+Time: 10:41:40 PM
+Timezone: IST
+UTC offset: +0530
+2026-10-09 22:41:40 | INFO     | nova | [LISTENING]
+2026-10-09 22:41:42 | INFO     | nova | [LISTENING]
+2026-10-09 22:41:44 | INFO     | nova | Nova response: Hello! I'm Nova, not Jarvis. I'm a local meeting and knowledge assistant. I can help you with:
+
+1. **Meeting transcripts**: Understand what was discussed, decided, or mentioned during a meeting.
+2. **Document library**: Summarize or explain a saved document, identify key points, or provide action items.
+3. **Internet search**: Retrieve general information from online sources, including news and recent developments.
+
+What can I help you with today?
+2026-10-09 22:41:44 | INFO     | nova | [MICROPHONE] DISABLED
+2026-10-09 22:41:44 | INFO     | nova | [MICROPHONE] Stop requested
+2026-10-09 22:41:44 | INFO     | nova | [TTS] Generating Piper audio...
+2026-10-09 22:41:45 | INFO     | nova | SQLite database initialized
+2026-10-09 22:41:45 | INFO     | nova | SQLite database initialized
+2026-10-09 22:41:45 | INFO     | nova | SQLite database initialized
+2026-10-09 22:42:05 | INFO     | nova | SQLite database initialized
+2026-10-09 22:42:05 | INFO     | nova | SQLite database initialized
+2026-10-09 22:42:05 | INFO     | nova | SQLite database initialized
+2026-10-09 22:42:17 | INFO     | nova | [TTS] Stop requested. Stopping playback.
+2026-10-09 22:42:18 | INFO     | nova | [MICROPHONE] ENABLED
+2026-10-09 22:42:18 | INFO     | nova | [LISTENING]
+2026-10-09 22:42:18 | INFO     | nova | [LISTENING]
+2026-10-09 22:42:22 | INFO     | nova | [WAKE WORD] Hey Jarvis detected (score=0.917)
+2026-10-09 22:42:25 | INFO     | nova | [LISTENING]
+2026-10-09 22:42:25 | INFO     | nova | SQLite database initialized
+2026-10-09 22:42:25 | INFO     | nova | SQLite database initialized
+2026-10-09 22:42:25 | INFO     | nova | SQLite database initialized
+2026-10-09 22:42:30 | INFO     | nova | [Nova] Wake phrase detected by openWakeWord.
+2026-10-09 22:42:30 | INFO     | nova | [Nova] Command received: give me the weather updates of Pune
+2026-10-09 22:42:30 | INFO     | nova | User command: give me the weather updates of Pune
+2026-10-09 22:42:30 | INFO     | nova | Using model: llama3.2:3b
+2026-10-09 22:42:35 | INFO     | nova | [LISTENING]
+2026-10-09 22:42:36 | INFO     | nova | Nova requested tool: news_search | Arguments: {'query': 'Pune weather updates'}
+2026-10-09 22:42:36 | INFO     | nova | Tool requested: news_search | Arguments: {'query': 'Pune weather updates'}
+2026-10-09 22:42:36 | INFO     | nova | Performing news search for query: Pune weather updates with max results: 5
+2026-10-09 22:42:44 | INFO     | nova | [LISTENING]
+2026-10-09 22:42:45 | INFO     | nova | SQLite database initialized
+2026-10-09 22:42:45 | INFO     | nova | SQLite database initialized
+2026-10-09 22:42:45 | INFO     | nova | SQLite database initialized
+2026-10-09 22:42:48 | INFO     | nova | Nova response: The current weather updates for Pune are as follows:
+
+* Light rain and thunderstorms are expected to hit the city on March 18-19, according to the India Meteorological Department (IMD).
+* Heavy rain is expected on July 9, with the IMD issuing an Orange Alert for the district, warning of heavy to very heavy rainfall at isolated places.
+* Thundershowers have already lashed parts of Pune and surrounding areas, with the IMD predicting more rain on Tuesday.
+* A significant change in weather has been experienced on April 1, with 42 kmph gusty winds hitting the city, and the IMD forecasting rain amid a high of 33°C.
+* Pune is currently under an orange alert as the IMD predicts thunderstorms and gusty winds across the city.
+
+Please note that the weather forecast is subject to change and it's always best to check the latest updates before making any plans.
+2026-10-09 22:42:48 | INFO     | nova | [MICROPHONE] DISABLED
+2026-10-09 22:42:48 | INFO     | nova | [MICROPHONE] Stop requested
+2026-10-09 22:42:48 | INFO     | nova | [TTS] Generating Piper audio...
+2026-10-09 22:43:04 | INFO     | nova | [TTS] Stop requested. Stopping playback.
+2026-10-09 22:43:05 | INFO     | nova | SQLite database initialized
+2026-10-09 22:43:05 | INFO     | nova | SQLite database initialized
+2026-10-09 22:43:05 | INFO     | nova | SQLite database initialized
+2026-10-09 22:43:06 | INFO     | nova | [MICROPHONE] ENABLED
+2026-10-09 22:43:06 | INFO     | nova | [LISTENING]
+2026-10-09 22:43:06 | INFO     | nova | [LISTENING]
+2026-10-09 22:43:10 | INFO     | nova | [LISTENING]
+2026-10-09 22:43:19 | INFO     | nova | [LISTENING]
+2026-10-09 22:43:24 | INFO     | nova | [LISTENING]
+2026-10-09 22:43:25 | INFO     | nova | SQLite database initialized
+2026-10-09 22:43:25 | INFO     | nova | SQLite database initialized
+2026-10-09 22:43:25 | INFO     | nova | SQLite database initialized
+2026-10-09 22:43:36 | INFO     | nova | [LISTENING]
+2026-10-09 22:43:40 | INFO     | nova | [LISTENING]
+2026-10-09 22:43:43 | INFO     | nova | [LISTENING]
+2026-10-09 22:43:45 | INFO     | nova | SQLite database initialized
+2026-10-09 22:43:45 | INFO     | nova | SQLite database initialized
+2026-10-09 22:43:45 | INFO     | nova | SQLite database initialized
+2026-10-09 22:43:54 | INFO     | nova | [WAKE WORD] Hey Jarvis detected (score=0.616)
+2026-10-09 22:43:56 | INFO     | nova | [LISTENING]
+2026-10-09 22:44:01 | INFO     | nova | [Nova] Wake phrase detected by openWakeWord.
+2026-10-09 22:44:01 | INFO     | nova | [Nova] Command received: tell me about your tools
+2026-10-09 22:44:01 | INFO     | nova | User command: tell me about your tools
+2026-10-09 22:44:01 | INFO     | nova | Using model: llama3.2:3b
+2026-10-09 22:44:05 | INFO     | nova | SQLite database initialized
+2026-10-09 22:44:05 | INFO     | nova | SQLite database initialized
+2026-10-09 22:44:05 | INFO     | nova | SQLite database initialized
+2026-10-09 22:44:07 | INFO     | nova | Nova requested tool: list_saved_documents | Arguments: {}
+2026-10-09 22:44:07 | INFO     | nova | Tool requested: list_saved_documents | Arguments: {}
+2026-10-09 22:44:07 | INFO     | nova | SQLite database initialized
+2026-10-09 22:44:13 | INFO     | nova | [LISTENING]
+2026-10-09 22:44:13 | INFO     | nova | Nova response: I have three primary information sources:
+
+1.  **Meeting Transcript**: This is the recorded meeting data. I can use this source when the user asks about what was said, discussed, mentioned, proposed, or decided during a meeting.
+2.  **Document Library**: This is a saved summaries and metadata for documents processed by me. I can use this source when the user asks about which documents are available, to find a document by a filename keyword, or to summarize a saved document.
+3.  **Internet**: This is for general information outside the available meeting and document sources, or when the user explicitly asks for online research.
+
+I can call the appropriate tool whenever the answer depends on information stored in a meeting, document library, or online source.
+
+My primary responsibility is to select the appropriate source, use its tools when necessary, and answer accurately using the information returned.
+
+Please ask me any questions you have about my tools.
+2026-10-09 22:44:13 | INFO     | nova | [MICROPHONE] DISABLED
+2026-10-09 22:44:13 | INFO     | nova | [MICROPHONE] Stop requested
+2026-10-09 22:44:13 | INFO     | nova | [TTS] Generating Piper audio...
+2026-10-09 22:44:25 | INFO     | nova | SQLite database initialized
+2026-10-09 22:44:25 | INFO     | nova | SQLite database initialized
+2026-10-09 22:44:25 | INFO     | nova | SQLite database initialized
+2026-10-09 22:44:39 | INFO     | nova | [TTS] Stop requested. Stopping playback.
+2026-10-09 22:44:40 | INFO     | nova | [MICROPHONE] ENABLED
+2026-10-09 22:44:40 | INFO     | nova | [LISTENING]
+2026-10-09 22:44:40 | INFO     | nova | [LISTENING]
+2026-10-09 22:44:45 | INFO     | nova | SQLite database initialized
+2026-10-09 22:44:45 | INFO     | nova | SQLite database initialized
+2026-10-09 22:44:45 | INFO     | nova | SQLite database initialized
+2026-10-09 22:44:46 | INFO     | nova | [WAKE WORD] Hey Jarvis detected (score=0.597)
+2026-10-09 22:44:48 | INFO     | nova | [LISTENING]
+2026-10-09 22:44:50 | INFO     | nova | [LISTENING]
+2026-10-09 22:44:52 | INFO     | nova | [LISTENING]
+2026-10-09 22:44:53 | INFO     | nova | [LISTENING]
+2026-10-09 22:44:54 | INFO     | nova | [Nova] Wake phrase detected by openWakeWord.
+2026-10-09 22:44:54 | INFO     | nova | [Nova] Command received: Hey Jervis, summarize the meeting between
+2026-10-09 22:44:54 | INFO     | nova | User command: Hey Jervis, summarize the meeting between
+2026-10-09 22:44:54 | INFO     | nova | Using model: llama3.2:3b
+2026-10-09 22:44:57 | INFO     | nova | [LISTENING]
+2026-10-09 22:44:58 | INFO     | nova | [LISTENING]
+2026-10-09 22:45:00 | INFO     | nova | Nova requested tool: summarize_meeting | Arguments: {'minutes': '60'}
+2026-10-09 22:45:00 | INFO     | nova | Tool requested: summarize_meeting | Arguments: {'minutes': '60'}
+2026-10-09 22:45:01 | INFO     | nova | [LISTENING]
+2026-10-09 22:45:02 | INFO     | nova | [LISTENING]
+2026-10-09 22:45:02 | INFO     | nova | Nova response: The meeting you requested is not available. I do not have any information to summarize.
+2026-10-09 22:45:02 | INFO     | nova | [MICROPHONE] DISABLED
+2026-10-09 22:45:02 | INFO     | nova | [MICROPHONE] Stop requested
+2026-10-09 22:45:02 | INFO     | nova | [TTS] Generating Piper audio...
+2026-10-09 22:45:05 | INFO     | nova | SQLite database initialized
+2026-10-09 22:45:05 | INFO     | nova | SQLite database initialized
+2026-10-09 22:45:05 | INFO     | nova | SQLite database initialized
+2026-10-09 22:45:10 | INFO     | nova | [MICROPHONE] ENABLED
+2026-10-09 22:45:10 | INFO     | nova | [LISTENING]
+2026-10-09 22:45:10 | INFO     | nova | [LISTENING]
+2026-10-09 22:45:16 | INFO     | nova | [LISTENING]
+2026-10-09 22:45:21 | INFO     | nova | [LISTENING]
+2026-10-09 22:45:22 | INFO     | nova | [LISTENING]
+2026-10-09 22:45:23 | INFO     | nova | [LISTENING]
+2026-10-09 22:45:25 | INFO     | nova | [LISTENING]
+2026-10-09 22:45:25 | INFO     | nova | SQLite database initialized
+2026-10-09 22:45:25 | INFO     | nova | SQLite database initialized
+2026-10-09 22:45:25 | INFO     | nova | SQLite database initialized
+2026-10-09 22:45:26 | INFO     | nova | [LISTENING]
+2026-10-09 22:45:32 | INFO     | nova | [LISTENING]
+2026-10-09 22:45:34 | INFO     | nova | [LISTENING]
+2026-10-09 22:45:39 | INFO     | nova | [LISTENING]
+2026-10-09 22:45:43 | INFO     | nova | [LISTENING]
+2026-10-09 22:45:44 | INFO     | nova | [WAKE WORD] Hey Jarvis detected (score=0.868)
+2026-10-09 22:45:45 | INFO     | nova | SQLite database initialized
+2026-10-09 22:45:45 | INFO     | nova | SQLite database initialized
+2026-10-09 22:45:45 | INFO     | nova | SQLite database initialized
+2026-10-09 22:45:48 | INFO     | nova | [LISTENING]
+2026-10-09 22:45:49 | INFO     | nova | [LISTENING]
+2026-10-09 22:45:51 | INFO     | nova | [LISTENING]
+2026-10-09 22:45:53 | INFO     | nova | [LISTENING]
+2026-10-09 22:45:54 | INFO     | nova | [Nova] Wake phrase detected by openWakeWord.
+2026-10-09 22:45:54 | INFO     | nova | [Nova] Command received: My job is summarize the meeting between 2 p.m. to 3 p.m.
+2026-10-09 22:45:54 | INFO     | nova | User command: My job is summarize the meeting between 2 p.m. to 3 p.m.
+2026-10-09 22:45:54 | INFO     | nova | Using model: llama3.2:3b
+2026-10-09 22:45:56 | INFO     | nova | [LISTENING]
+2026-10-09 22:45:58 | INFO     | nova | [LISTENING]
+2026-10-09 22:46:00 | INFO     | nova | Nova requested tool: get_summary_between | Arguments: {'start_time': '14:00:00', 'end_time': '15:00:00'}
+2026-10-09 22:46:00 | INFO     | nova | Tool requested: get_summary_between | Arguments: {'start_time': '14:00:00', 'end_time': '15:00:00'}
+2026-10-09 22:46:00 | INFO     | nova | Fetching transcript between 2026-10-09T14:00:00+05:30 and 2026-10-09T15:00:00+05:30
+2026-10-09 22:46:00 | INFO     | nova | Transcript query returned 93 segments
+2026-10-09 22:46:03 | INFO     | nova | [LISTENING]
+2026-10-09 22:46:05 | INFO     | nova | [LISTENING]
+2026-10-09 22:46:05 | INFO     | nova | SQLite database initialized
+2026-10-09 22:46:05 | INFO     | nova | SQLite database initialized
+2026-10-09 22:46:05 | INFO     | nova | SQLite database initialized
+2026-10-09 22:46:07 | INFO     | nova | [LISTENING]
+2026-10-09 22:46:09 | INFO     | nova | [LISTENING]
+2026-10-09 22:46:12 | INFO     | nova | [LISTENING]
+2026-10-09 22:46:17 | INFO     | nova | [LISTENING]
+2026-10-09 22:46:19 | INFO     | nova | [LISTENING]
+2026-10-09 22:46:21 | INFO     | nova | [LISTENING]
+2026-10-09 22:46:21 | INFO     | nova | Nova response: This is a transcript of a conversation between a facilitator and a group of participants in a hackathon. The conversation is in multiple languages and includes a mix of English, Tamil, and other languages.
+
+The facilitator is explaining the rules and instructions for the hackathon, and the participants are asking questions and providing feedback. The facilitator is also mentioning the importance of submitting their work on time and ensuring that their solutions are ready before the evaluation begins.
+
+Some notable points from the conversation include:
+
+* The facilitator is emphasizing the importance of submitting their work on time and ensuring that their solutions are ready before the evaluation begins.
+* The facilitator is also mentioning the importance of following the rules and instructions, and providing a handbook for participants to refer to.
+* The participants are asking questions and providing feedback, and the facilitator is responding to their queries and providing guidance.
+* The conversation also includes some informal moments, such as people chatting and laughing, and the facilitator saying "Let's just do that on the end."
+
+Overall, the conversation is focused on setting the stage for the hackathon and ensuring that the participants have a smooth and successful experience.
+
+Here is a summary of the conversation in English:
+
+* The facilitator is explaining the rules and instructions for the hackathon, including the importance of submitting work on time and following the rules.
+* The participants are asking questions and providing feedback, and the facilitator is responding to their queries and providing guidance.
+* The facilitator is also mentioning the importance of having a support team and providing resources for participants to refer to.
+* The conversation includes some informal moments, such as people chatting and laughing.
+
+The conversation is around 20 minutes long, and covers a range of topics related to the hackathon. It is likely that the conversation is from a real hackathon event, but the exact context and purpose of the conversation are not clear.
+2026-10-09 22:46:21 | INFO     | nova | [MICROPHONE] DISABLED
+2026-10-09 22:46:21 | INFO     | nova | [MICROPHONE] Stop requested
+2026-10-09 22:46:21 | INFO     | nova | [TTS] Generating Piper audio...
+2026-10-09 22:46:25 | INFO     | nova | SQLite database initialized
+2026-10-09 22:46:25 | INFO     | nova | SQLite database initialized
+2026-10-09 22:46:25 | INFO     | nova | SQLite database initialized
+2026-10-09 22:46:45 | INFO     | nova | SQLite database initialized
+2026-10-09 22:46:45 | INFO     | nova | SQLite database initialized
+2026-10-09 22:46:45 | INFO     | nova | SQLite database initialized
+2026-10-09 22:47:05 | INFO     | nova | SQLite database initialized
+2026-10-09 22:47:05 | INFO     | nova | SQLite database initialized
+2026-10-09 22:47:05 | INFO     | nova | SQLite database initialized
+2026-10-09 22:47:25 | INFO     | nova | SQLite database initialized
+2026-10-09 22:47:25 | INFO     | nova | SQLite database initialized
+2026-10-09 22:47:25 | INFO     | nova | SQLite database initialized
+2026-10-09 22:47:33 | INFO     | nova | [TTS] Stop requested. Stopping playback.
+2026-10-09 22:47:35 | INFO     | nova | [MICROPHONE] ENABLED
+2026-10-09 22:47:35 | INFO     | nova | [LISTENING]
+2026-10-09 22:47:35 | INFO     | nova | [LISTENING]
+2026-10-09 22:47:38 | INFO     | nova | Meeting finished: 20261009_224105

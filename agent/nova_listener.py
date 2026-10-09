@@ -1,167 +1,100 @@
+
 import re
+import time
+
 from agent.nova_agent import ask_nova
 from logger_config import logger
-from config.config import WAKE_PHRASE
-# ============================================================
-# Configuration
-# ============================================================
 
-
-
-# Number of seconds after wake phrase during which
-# we expect the command.
+WAKE_PHRASE = "hey jarvis"
 COMMAND_TIMEOUT = 10
 
 
-# ============================================================
-# Nova Listener
-# ============================================================
-
 class NovaListener:
-
     def __init__(self):
         self.active = False
-
-    # --------------------------------------------------------
-    # Check for wake phrase
-    # --------------------------------------------------------
+        self.last_was_command = False
+        self.activation_time = 0.0
 
     def contains_wake_phrase(self, text):
-        text = text.lower().strip()
-        logger.debug(f"Checking for wake phrase in text: {text}")
-        return WAKE_PHRASE in text
-
-    # --------------------------------------------------------
-    # Remove wake phrase from transcript
-    # --------------------------------------------------------
+        return WAKE_PHRASE in text.lower().strip()
 
     def remove_wake_phrase(self, text):
-        pattern = re.compile(
-            re.escape(WAKE_PHRASE),
-            re.IGNORECASE
-        )
+        pattern = re.compile(re.escape(WAKE_PHRASE), re.IGNORECASE)
+        return pattern.sub("", text).strip(" ,.!?")
 
-        return pattern.sub("", text).strip()
-
-    # --------------------------------------------------------
-    # Process transcript
-    # --------------------------------------------------------
+    def activate_from_wake_word(self):
+        if not self.active:
+            self.active = True
+            self.activation_time = time.monotonic()
+            logger.info("[Nova] Wake phrase detected by openWakeWord.")
+            print("[Nova] Wake phrase detected. Listening for command...")
 
     def process(self, text):
-
         text = text.strip()
-
-        # Reset for every new transcription
         self.last_was_command = False
 
         if not text:
             return None
 
-        # ----------------------------------------------------
-        # IDLE STATE
-        # ----------------------------------------------------
-
+        # Handle a wake phrase detected in the transcription.
         if not self.active:
-
-            if self.contains_wake_phrase(text):
-
-                # This transcription IS a Nova command
-                self.last_was_command = True
-
-                self.active = True
-
-                command = self.remove_wake_phrase(text)
-
-                logger.info("\n[Nova] Wake phrase detected.")
-
-                # User may have said:
-                #
-                # "Hey Noah, summarize the meeting."
-                #
-                # in the same Whisper segment.
-
-                if command:
-
-                    logger.info(
-                        f"[Nova] Command: {command}"
-                    )
-
-                    return self.execute_command(command)
-
-                print(
-                    "[Nova] Listening for command..."
-                )
-
+            if not self.contains_wake_phrase(text):
                 return None
 
-            # Normal meeting conversation
+            command = self.remove_wake_phrase(text)
+            self.active = True
+            self.activation_time = time.monotonic()
+
+            logger.info("[Nova] Wake phrase detected in transcription.")
+
+            if not command:
+                print("[Nova] Listening for command...")
+                return None
+
+            # Wake phrase and command were spoken together.
+            self.last_was_command = True
+            return self.execute_command(command)
+
+        # Expire activation if the command doesn't arrive in time.
+        if time.monotonic() - self.activation_time > COMMAND_TIMEOUT:
+            logger.info("[Nova] Command timed out.")
+            print("[Nova] Command timeout. Returning to normal listening.")
+            self.active = False
+            self.activation_time = 0.0
+
+            # A new wake phrase can activate Nova again.
+            if self.contains_wake_phrase(text):
+                return self.process(text)
+
             return None
 
-        # ----------------------------------------------------
-        # COMMAND STATE
-        # ----------------------------------------------------
-
-        # Since Nova is active, this is also a command
-        self.last_was_command = True
-
-        logger.info(
-            f"[Nova] Command received: {text}"
+        # If the transcript contains only the wake phrase,
+        # keep listening instead of sending it to the language model.
+        command = (
+            self.remove_wake_phrase(text)
+            if self.contains_wake_phrase(text)
+            else text
         )
 
-        return self.execute_command(text)
-    # --------------------------------------------------------
-    # Execute Nova command
-    # --------------------------------------------------------
+        if not command:
+            print("[Nova] Listening for command...")
+            return None
+
+        self.last_was_command = True
+        logger.info("[Nova] Command received: %s", command)
+
+        return self.execute_command(command)
 
     def execute_command(self, command):
-
         try:
-
             response = ask_nova(command)
-
-            logger.info(
-                "Nova response: %s",
-                response
-            )
-
+            logger.info("Nova response: %s", response)
             return response
 
         except Exception as e:
-
-            logger.exception(
-                "Nova Error: %s",
-                e
-            )
-
+            logger.exception("Nova Error: %s", e)
             return None
 
         finally:
-
-            # Return to normal listening mode
             self.active = False
-
-
-# ============================================================
-# Standalone test
-# ============================================================
-
-if __name__ == "__main__":
-
-    nova = NovaListener()
-
-    print("=" * 60)
-    print("Nova Wake Phrase Test")
-    print("=" * 60)
-
-    print("\nWake phrase:", WAKE_PHRASE)
-    print("Type transcript segments below.")
-    print("Type 'exit' to quit.\n")
-
-    while True:
-
-        text = input("Transcript: ").strip()
-
-        if text.lower() == "exit":
-            break
-
-        nova.process(text)
+            self.activation_time = 0.0
