@@ -7,10 +7,10 @@ TOOLS = [
     {
         "type": "function",
         "function": {
-            "name": "get_transcript_between",
+            "name": "get_summary_between",
             "description": (
                 "Retrieve meeting transcript segments "
-                "between two ISO timestamps."
+                "between two start and end time like 2 PM to 3 PM."
             ),
             "parameters": {
                 "type": "object",
@@ -18,17 +18,17 @@ TOOLS = [
                     "start_time": {
                         "type": "string",
                         "description": (
-                            "Start timestamp in ISO format. "
+                            "Start time in a human-readable format. "
                             "Example: "
-                            "2026-09-25T15:44:00"
+                            "14:00:00"
                         )
                     },
                     "end_time": {
                         "type": "string",
                         "description": (
-                            "End timestamp in ISO format. "
+                            "End time in a human-readable format. "
                             "Example: "
-                            "2026-09-25T15:45:00"
+                            "15:00:00"
                         )
                     }
                 },

@@ -91,43 +91,111 @@ def segment_overlaps(segment, start_time, end_time):
 # Tool 1: Get transcript between two timestamps
 # ============================================================
 
-def get_transcript_between(start_time, end_time):
+
+def get_summary_between(start_time, end_time):
     """
-    Get all transcript segments that overlap a given
-    time range.
+    Retrieve transcript segments between two clock times
+    across all meetings on the latest meeting's date.
 
-    Example:
+    Results are ordered by timestamp descending (newest first).
+    """
 
-        get_transcript_between(
-            "2026-09-25T15:44:30",
-            "2026-09-25T15:45:00"
+    with get_connection() as connection:
+        # Determine the date and timezone from the latest meeting.
+        meeting_row = connection.execute("""
+            SELECT meeting_id, started_at
+            FROM meetings
+            ORDER BY started_at DESC
+            LIMIT 1
+        """).fetchone()
+
+        if meeting_row is None:
+            logger.warning("No meetings found in the database")
+            return {
+                "segment_count": 0,
+                "segments": [],
+                "summary": "No meetings found."
+            }
+
+        meeting_start = datetime.fromisoformat(
+            meeting_row["started_at"]
         )
-    """
 
-    meeting = load_meeting()
+        reference_date = meeting_start.date()
+        timezone = meeting_start.tzinfo
 
-    start = parse_timestamp(start_time)
-    end = parse_timestamp(end_time)
+        # Build full timestamps for the requested clock times.
+        start_clock = datetime.strptime(
+            start_time, "%H:%M:%S"
+        ).time()
 
-    if start >= end:
-        logger.error("start_time must be before end_time")
-        raise ValueError("start_time must be before end_time")
+        end_clock = datetime.strptime(
+            end_time, "%H:%M:%S"
+        ).time()
 
-    results = []
+        start = datetime.combine(
+            reference_date, start_clock, tzinfo=timezone
+        )
 
-    for segment in meeting.get("segments", []):
+        end = datetime.combine(
+            reference_date, end_clock, tzinfo=timezone
+        )
 
-        if segment_overlaps(segment, start, end):
-            results.append(segment)
+        if start >= end:
+            raise ValueError(
+                "start_time must be before end_time"
+            )
+
+        logger.info(
+            "Fetching transcript between %s and %s",
+            start.isoformat(),
+            end.isoformat()
+        )
+
+        # Search across ALL meetings, not only the latest meeting.
+        rows = connection.execute("""
+            SELECT
+                meeting_id,
+                segment_id,
+                timestamp,
+                text
+            FROM meeting_segments
+            WHERE timestamp >= ?
+              AND timestamp < ?
+            ORDER BY timestamp DESC, segment_id DESC
+        """, (
+            start.isoformat(),
+            end.isoformat()
+        )).fetchall()
+
+    segments = [
+        {
+            "meeting_id": row["meeting_id"],
+            "segment_id": row["segment_id"],
+            "timestamp": row["timestamp"],
+            "text": row["text"]
+        }
+        for row in rows
+    ]
+
+    logger.info(
+        "Transcript query returned %d segments",
+        len(segments)
+    )
 
     return {
-        "meeting_id": meeting.get("meeting_id"),
-        "start_time": start_time,
-        "end_time": end_time,
-        "segment_count": len(results),
-        "segments": results
+        "date": reference_date.isoformat(),
+        "start_time": start.isoformat(),
+        "end_time": end.isoformat(),
+        "segment_count": len(segments),
+        "segments": segments,
+        "transcript": segments_to_text(segments),
+        "summary": (
+            "Transcript retrieved successfully."
+            if segments
+            else "No transcript segments found in this time range."
+        )
     }
-
 
 # ============================================================
 # Tool 2: Get recent transcript
@@ -350,7 +418,7 @@ def search_saved_documents(query):
 # Simple local test
 # ============================================================
 
-# if __name__ == "__main__":
+if __name__ == "__main__":
 
     print("\n=== Nova Tools Test ===\n")
 
@@ -364,7 +432,7 @@ def search_saved_documents(query):
 
     print("\n--- Recent transcript (5 minutes) ---")
 
-    recent = summarize_meeting(5)
+    recent = get_summary_between("14:00:00", "15:30:00")
 
     print(
         segments_to_text(
@@ -383,12 +451,12 @@ def search_saved_documents(query):
     )
 
 
-if __name__ == "__main__":
-    print("\n--- Saved Documents ---")
-    print(list_saved_documents())
+# if __name__ == "__main__":
+#     print("\n--- Saved Documents ---")
+#     print(list_saved_documents())
 
-    print("\n--- Goa Travel Guide Summary ---")
-    print(get_document_summary("Goa-Travel-Guide.pdf"))
+#     print("\n--- Goa Travel Guide Summary ---")
+#     print(get_document_summary("Goa-Travel-Guide.pdf"))
 
-    print("\n--- Search: Goa ---")
-    print(search_saved_documents("Goa"))
+#     print("\n--- Search: Goa ---")
+#     print(search_saved_documents("Goa"))

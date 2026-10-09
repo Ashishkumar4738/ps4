@@ -6,7 +6,7 @@ import uuid
 from agent.tools import TOOLS
 
 from agent.nova_tools import (
-    get_transcript_between,
+    get_summary_between,
     summarize_meeting,
     search_meeting,
     segments_to_text,
@@ -52,9 +52,9 @@ def execute_tool(tool_name, arguments):
 
     try:
 
-        if tool_name == "get_transcript_between":
+        if tool_name == "get_summary_between":
 
-            result = get_transcript_between(
+            result = get_summary_between(
                 arguments["start_time"],
                 arguments["end_time"]
             )
