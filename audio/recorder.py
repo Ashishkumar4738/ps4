@@ -36,6 +36,8 @@ class AudioRecorder:
 
         # Tells active VAD loop to stop immediately
         self.mic_stop_requested = threading.Event()
+        # Permanently stops the recorder thread.
+        self.shutdown_event = threading.Event()
 
         # Audio queue
         self.audio_queue = queue.Queue()
@@ -130,7 +132,7 @@ class AudioRecorder:
             callback=self.callback
         ):
 
-            while True:
+            while not self.shutdown_event.is_set():
 
                 frame = self.audio_queue.get()
 
@@ -272,49 +274,65 @@ class AudioRecorder:
     # Main recorder loop
     # ========================================================
 
-    def run(self):
-
-        logger.info("[AUDIO RECORDER] Started")
-
-        while True:
-
-            # Wait until microphone is enabled
-            self.mic_enabled.wait()
-
-            # Reset stop request
-            self.mic_stop_requested.clear()
-
-            logger.info("[LISTENING]")
-
-            frames, speech_frames = (
-                self.record_segment()
-            )
-
-            # If microphone was disabled by Nova,
-            # don't process the interrupted audio.
-            if not self.mic_enabled.is_set():
-
-                self.clear_audio_queue()
-
-                continue
-
-            self.process_segment(
-                frames,
-                speech_frames
-            )
-
-            print("[LISTENING CONTINUES]")
 
     # ========================================================
-    # Stop recorder
+    # Main recorder loop
+    # ========================================================
+
+    def run(self):
+        logger.info("[AUDIO RECORDER] Started")
+
+        try:
+            while not self.shutdown_event.is_set():
+
+                # Wait for microphone enable, but allow shutdown.
+                while (
+                    not self.shutdown_event.is_set()
+                    and not self.mic_enabled.wait(timeout=0.2)
+                ):
+                    pass
+
+                if self.shutdown_event.is_set():
+                    break
+
+                self.mic_stop_requested.clear()
+
+                if self.shutdown_event.is_set():
+                    break
+
+                logger.info("[LISTENING]")
+
+                frames, speech_frames = self.record_segment()
+
+                # Exit without processing interrupted audio.
+                if self.shutdown_event.is_set():
+                    break
+
+                # Nova may have temporarily disabled the mic.
+                if not self.mic_enabled.is_set():
+                    self.clear_audio_queue()
+                    continue
+
+                self.process_segment(frames, speech_frames)
+
+                print("[LISTENING CONTINUES]")
+
+        except Exception:
+            logger.exception("[AUDIO RECORDER] Unexpected error")
+
+        finally:
+            logger.info("[AUDIO RECORDER] Thread exited")
+
+    # ========================================================
+    # Stop recorder permanently
     # ========================================================
 
     def stop(self):
-
+        self.shutdown_event.set()
         self.mic_enabled.clear()
         self.mic_stop_requested.set()
 
-        # Wake up queue
+        # Wake a recorder blocked on audio_queue.get().
         self.audio_queue.put(None)
 
-        print("[AUDIO RECORDER] Stopped")
+        logger.info("[AUDIO RECORDER] Shutdown requested")

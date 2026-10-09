@@ -10,60 +10,38 @@ from agent.nova_listener import NovaListener
 
 class TranscriptionWorker:
 
+
     def __init__(
         self,
         transcription_queue,
         meeting,
         recorder,
-        worker_count=2
+        worker_count=2,
+        on_transcription=None,
+        on_response=None,
     ):
         self.transcription_queue = transcription_queue
         self.meeting = meeting
         self.recorder = recorder
-
         self.worker_count = worker_count
 
-        self.stop_event = threading.Event()
+        self.on_transcription = on_transcription
+        self.on_response = on_response
 
-        # ----------------------------------------------------
-        # Whisper workers
-        # ----------------------------------------------------
+        self.stop_event = threading.Event()
 
         self.workers = []
-
-        self.stop_event = threading.Event()
-
         self.nova = NovaListener()
-        
-        self.workers = []
-
-        # ----------------------------------------------------
-        # Transcription results
-        # ----------------------------------------------------
-
         self.result_queue = queue.Queue()
-
-        # ----------------------------------------------------
-        # Result processor
-        #
-        # Only ONE thread handles:
-        #   - Nova
-        #   - meeting.json
-        #   - TTS
-        #   - microphone control
-        # ----------------------------------------------------
 
         self.processor_thread = threading.Thread(
             target=self.process_results,
             daemon=True
         )
 
-        # ----------------------------------------------------
-        # Result ordering
-        # ----------------------------------------------------
-
         self.pending_results = {}
         self.next_segment_id = 1
+
 
     # ========================================================
     # START
@@ -303,6 +281,11 @@ class TranscriptionWorker:
         )
 
         print(transcription)
+        if self.on_transcription:
+            try:
+                self.on_transcription(transcription)
+            except Exception:
+                print("[GUI CALLBACK ERROR] Transcription callback failed")
 
         print(
             "=============================================="
@@ -388,6 +371,11 @@ class TranscriptionWorker:
         # ----------------------------------------------------
 
         if nova_response:
+            if self.on_response:
+                try:
+                    self.on_response(nova_response)
+                except Exception:
+                    print("[GUI CALLBACK ERROR] Response callback failed")
 
             print()
 

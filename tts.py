@@ -6,12 +6,16 @@ from logger_config import logger
 from audio.control import (
     set_tts_process,
     clear_tts_process,
+    is_speech_enabled,
 )
 
 PIPER_MODEL = "/home/ashish-kumar/Projects/ps4/models/tts/en_US-lessac-medium.onnx"
 
 PAPLAY = "/usr/bin/paplay"
 def speak(text):
+    if not is_speech_enabled():
+        logger.info("[TTS] Speech disabled; skipping response.")
+        return
 
     if not text:
         return
@@ -46,6 +50,9 @@ def speak(text):
         print("[TTS] Piper generation complete")
 
         print("[TTS] Starting playback...")
+        if not is_speech_enabled():
+            logger.info("[TTS] Speech disabled before playback.")
+            return
 
         player = subprocess.Popen(
             [PAPLAY, wav_file]
