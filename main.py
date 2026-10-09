@@ -1,11 +1,12 @@
 import queue
-
+import threading
 from audio.recorder import AudioRecorder
 from transcription.worker import TranscriptionWorker
 from meeting.manager import MeetingManager
 from logger_config import logger
 from internet_control import start_internet_toggle
 from audio.keyboard import start_audio_control
+from documents.watcher import watch_folder, stop_event
 # ============================================================
 # Main
 # ============================================================
@@ -17,6 +18,20 @@ def main():
     logger.info("==============================================")
     start_internet_toggle()
     start_audio_control()
+
+    #--------------------------------------------------------
+    # Document watcher
+    # --------------------------------------------------------
+
+    document_watcher_thread = threading.Thread(
+        target=watch_folder,
+        name="document-watcher",
+        daemon=False,
+    )
+
+    document_watcher_thread.start()
+
+    logger.info("Document watcher launched")
     # --------------------------------------------------------
     # Meeting
     # --------------------------------------------------------

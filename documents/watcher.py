@@ -23,6 +23,7 @@ from documents.document_store import (
 PROJECT_DIR = Path(__file__).resolve().parent.parent
 
 INBOX_DIR = PROJECT_DIR / "document_inbox"
+print("INBOX_DIR", INBOX_DIR)
 
 SUPPORTED_EXTENSIONS = {
     ".pdf",
@@ -31,7 +32,7 @@ SUPPORTED_EXTENSIONS = {
     ".md",
 }
 
-POLL_INTERVAL = 2
+POLL_INTERVAL = 20
 STABLE_CHECKS = 2
 RETRY_DELAY = 15
 

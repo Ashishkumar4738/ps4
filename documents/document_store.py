@@ -5,6 +5,7 @@ import logging
 
 from datetime import datetime
 from pathlib import Path
+import uuid
 
 from config.config import PROJECT_DIR
 from database.connection import get_connection
@@ -182,11 +183,13 @@ def save_summary(
             WHERE source_path = ?
         """, (str(path),)).fetchone()
 
+
         document_id = (
             existing["document_id"]
             if existing
-            else file_hash[:16]
+            else uuid.uuid4().hex
         )
+
 
         connection.execute("""
             INSERT INTO documents (
